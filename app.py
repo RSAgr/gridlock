@@ -1,4 +1,15 @@
 import streamlit as st
+import folium
+import json
+from streamlit_folium import st_folium
+
+from components.event_layer import add_event_layer
+from components.junction_layer import add_junction_layer
+from components.critical_zone_layer import add_critical_zone_layer
+from components.deployment_layer import add_deployment_layer
+from components.infrastructure_layer import add_infrastructure_layer
+from components.diversion_layer import add_diversion_layer
+from components.emergency_layer import add_emergency_layer
 
 st.set_page_config(
     page_title="FlowGuard AI",
@@ -58,26 +69,49 @@ with col2:
         )
 
 st.divider()
+with open("datasets/dummy.json") as f:
+    data = json.load(f)
 
-st.subheader("Live City Overview")
+venue = data["event"]["venue"]
 
-map_placeholder = """
-<div style="
-height:500px;
-border:1px solid rgba(255,255,255,0.1);
-border-radius:12px;
-display:flex;
-align-items:center;
-justify-content:center;
-background:rgba(255,255,255,0.02);
-font-size:20px;
-color:#9CA3AF;
-">
-Interactive Congestion Map
-</div>
-"""
+m = folium.Map(
+    location=[venue["lat"], venue["lon"]],
+    zoom_start=16
+)
 
-st.markdown(map_placeholder, unsafe_allow_html=True)
+add_event_layer(m, data)
+add_junction_layer(m, data)
+add_critical_zone_layer(m, data)
+add_deployment_layer(m, data)
+add_infrastructure_layer(m, data)
+add_diversion_layer(m, data)
+add_emergency_layer(m, data)
+
+st_folium(
+    m,
+    height=600,
+    use_container_width=True
+)
+
+# st.subheader("Live City Overview")
+
+# map_placeholder = """
+# <div style="
+# height:500px;
+# border:1px solid rgba(255,255,255,0.1);
+# border-radius:12px;
+# display:flex;
+# align-items:center;
+# justify-content:center;
+# background:rgba(255,255,255,0.02);
+# font-size:20px;
+# color:#9CA3AF;
+# ">
+# Interactive Congestion Map
+# </div>
+# """
+
+# st.markdown(map_placeholder, unsafe_allow_html=True)
 
 st.divider()
 

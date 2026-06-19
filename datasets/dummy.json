@@ -1,0 +1,382 @@
+{
+  "event": {
+    "name": "IPL Match",
+    "type": "Sports",
+    "venue": {
+      "name": "M Chinnaswamy Stadium",
+      "lat": 12.9788,
+      "lon": 77.5996
+    },
+    "impact_radius": 3000
+  },
+
+  "risk_analysis": {
+    "score": 87,
+    "level": "Critical",
+    "affected_junctions": 12,
+    "critical_junctions": 3
+  },
+
+  "junctions": [
+  {
+    "id": "J1",
+    "name": "Queens Statue Circle",
+    "lat": 12.9785,
+    "lon": 77.5992,
+    "risk_score": 0.89,
+    "risk_level": "Critical"
+  },
+  {
+    "id": "J2",
+    "name": "MG Road Junction",
+    "lat": 12.9754,
+    "lon": 77.6032,
+    "risk_score": 0.83,
+    "risk_level": "Critical"
+  },
+  {
+    "id": "J3",
+    "name": "Cubbon Road Junction",
+    "lat": 12.9806,
+    "lon": 77.6028,
+    "risk_score": 0.78,
+    "risk_level": "Critical"
+  },
+
+  {
+    "id": "J4",
+    "name": "Brigade Road",
+    "lat": 12.9718,
+    "lon": 77.6055,
+    "risk_score": 0.68,
+    "risk_level": "High"
+  },
+  {
+    "id": "J5",
+    "name": "Church Street",
+    "lat": 12.9742,
+    "lon": 77.6072,
+    "risk_score": 0.63,
+    "risk_level": "High"
+  },
+  {
+    "id": "J6",
+    "name": "Residency Road",
+    "lat": 12.9725,
+    "lon": 77.6008,
+    "risk_score": 0.59,
+    "risk_level": "High"
+  },
+  {
+    "id": "J7",
+    "name": "Anil Kumble Circle",
+    "lat": 12.9818,
+    "lon": 77.6012,
+    "risk_score": 0.56,
+    "risk_level": "High"
+  },
+
+  {
+    "id": "J8",
+    "name": "Richmond Circle",
+    "lat": 12.9688,
+    "lon": 77.5995,
+    "risk_score": 0.45,
+    "risk_level": "Moderate"
+  },
+  {
+    "id": "J9",
+    "name": "Lavelle Road",
+    "lat": 12.9792,
+    "lon": 77.5945,
+    "risk_score": 0.41,
+    "risk_level": "Moderate"
+  },
+  {
+    "id": "J10",
+    "name": "Museum Road",
+    "lat": 12.9771,
+    "lon": 77.6058,
+    "risk_score": 0.37,
+    "risk_level": "Moderate"
+  },
+
+  {
+    "id": "J11",
+    "name": "Kasturba Road",
+    "lat": 12.9816,
+    "lon": 77.5928,
+    "risk_score": 0.22,
+    "risk_level": "Low"
+  }
+],
+
+  "critical_zones": [
+  {
+    "id": "CZ1",
+    "name": "North Stadium Zone",
+    "risk_level": "Critical",
+    "polygon": [
+      [12.9780, 77.5980],
+      [12.9805, 77.6000],
+      [12.9825, 77.5992],
+      [12.9812, 77.5968]
+    ]
+  },
+
+  {
+    "id": "CZ2",
+    "name": "East Parking Overflow Zone",
+    "risk_level": "High",
+    "polygon": [
+      [12.9765, 77.6025],
+      [12.9788, 77.6052],
+      [12.9810, 77.6040],
+      [12.9795, 77.6018]
+    ]
+  },
+
+  {
+    "id": "CZ3",
+    "name": "MG Road Pedestrian Zone",
+    "risk_level": "High",
+    "polygon": [
+      [12.9730, 77.6025],
+      [12.9750, 77.6050],
+      [12.9770, 77.6038],
+      [12.9752, 77.6015]
+    ]
+  }
+],
+
+  "deployment": {
+  "officers": [
+    {
+      "id": "P1",
+      "lat": 12.9785,
+      "lon": 77.5992,
+      "count": 15
+    },
+    {
+      "id": "P2",
+      "lat": 12.9754,
+      "lon": 77.6032,
+      "count": 12
+    },
+    {
+      "id": "P3",
+      "lat": 12.9806,
+      "lon": 77.6028,
+      "count": 12
+    },
+
+    {
+      "id": "P4",
+      "lat": 12.9718,
+      "lon": 77.6055,
+      "count": 10
+    },
+    {
+      "id": "P5",
+      "lat": 12.9742,
+      "lon": 77.6072,
+      "count": 8
+    },
+    {
+      "id": "P6",
+      "lat": 12.9725,
+      "lon": 77.6008,
+      "count": 8
+    },
+
+    {
+      "id": "P7",
+      "lat": 12.9688,
+      "lon": 77.5995,
+      "count": 5
+    },
+    {
+      "id": "P8",
+      "lat": 12.9792,
+      "lon": 77.5945,
+      "count": 4
+    }
+  ],
+
+  "barricades": [
+    {
+      "id": "B1",
+      "lat": 12.9789,
+      "lon": 77.5997,
+      "reason": "Critical Junction Closure"
+    },
+    {
+      "id": "B2",
+      "lat": 12.9758,
+      "lon": 77.6035,
+      "reason": "Traffic Diversion"
+    },
+    {
+      "id": "B3",
+      "lat": 12.9804,
+      "lon": 77.6025,
+      "reason": "Critical Junction Closure"
+    },
+    {
+      "id": "B4",
+      "lat": 12.9722,
+      "lon": 77.6056,
+      "reason": "Pedestrian Spillover"
+    },
+    {
+      "id": "B5",
+      "lat": 12.9740,
+      "lon": 77.6068,
+      "reason": "Crowd Management"
+    }
+  ]
+},
+  "infrastructure": {
+    "hospitals": [
+      {
+        "id": "H1",
+        "name": "Victoria Hospital",
+        "lat": 12.9630,
+        "lon": 77.5730
+      }
+    ],
+
+    "schools": [
+      {
+        "id": "S1",
+        "name": "St Joseph School",
+        "lat": 12.9812,
+        "lon": 77.6041
+      }
+    ],
+
+    "fire_stations": [
+      {
+        "id": "F1",
+        "name": "Central Fire Station",
+        "lat": 12.9740,
+        "lon": 77.5920
+      }
+    ],
+
+    "police_stations": [
+      {
+        "id": "PS1",
+        "name": "Cubbon Park Police Station",
+        "lat": 12.9760,
+        "lon": 77.5970
+      }
+    ]
+  },
+
+ "diversions": [
+  {
+    "id": "D1",
+    "affected_junction": "Queens Statue Circle",
+
+    "blocked_route": [
+      [12.9785, 77.5992],
+      [12.9790, 77.6000],
+      [12.9798, 77.6008]
+    ],
+
+    "alternate_route": [
+      [12.9785, 77.5992],
+      [12.9778, 77.5984],
+      [12.9770, 77.5978],
+      [12.9768, 77.6000],
+      [12.9785, 77.6030],
+      [12.9805, 77.6045],
+      [12.9798, 77.6008]
+    ]
+  },
+
+  {
+    "id": "D2",
+    "affected_junction": "MG Road Junction",
+
+    "blocked_route": [
+      [12.9754, 77.6032],
+      [12.9760, 77.6040],
+      [12.9768, 77.6050]
+    ],
+
+    "alternate_route": [
+      [12.9754, 77.6032],
+      [12.9735, 77.6020],
+      [12.9720, 77.6030],
+      [12.9725, 77.6050],
+      [12.9745, 77.6065],
+      [12.9768, 77.6050]
+    ]
+  },
+
+  {
+    "id": "D3",
+    "affected_junction": "Cubbon Road Junction",
+
+    "blocked_route": [
+      [12.9806, 77.6028],
+      [12.9812, 77.6035],
+      [12.9820, 77.6042]
+    ],
+
+    "alternate_route": [
+      [12.9806, 77.6028],
+      [12.9810, 77.6005],
+      [12.9825, 77.5985],
+      [12.9840, 77.6005],
+      [12.9835, 77.6030],
+      [12.9820, 77.6042]
+    ]
+  }
+],
+
+  "emergency_corridors": [
+  {
+    "id": "EC1",
+    "name": "Bowring Hospital Emergency Corridor",
+    "route": [
+      [12.9830, 77.6035],
+      [12.9825, 77.6028],
+      [12.9810, 77.6015],
+      [12.9788, 77.5996]
+    ]
+  },
+
+  {
+    "id": "EC2",
+    "name": "Central Fire Station Emergency Corridor",
+    "route": [
+      [12.9740, 77.5920],
+      [12.9755, 77.5945],
+      [12.9770, 77.5965],
+      [12.9788, 77.5996]
+    ]
+  }
+],
+
+  "alerts": [
+  {
+    "severity": "Critical",
+    "message": "Queens Statue Circle congestion probability exceeds 85%."
+  },
+  {
+    "severity": "Critical",
+    "message": "MG Road Junction approaching gridlock conditions."
+  },
+  {
+    "severity": "High",
+    "message": "Heavy pedestrian spillover expected near Brigade Road after match completion."
+  },
+  {
+    "severity": "Moderate",
+    "message": "Richmond Circle inbound traffic increasing steadily."
+  }
+]
+}
