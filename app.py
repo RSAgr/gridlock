@@ -63,10 +63,12 @@ with col2:
     with st.container(border=True):
         st.markdown("### 🚨 Report Incident")
         st.caption("Generate real-time response recommendations.")
-        st.button(
+        if st.button(
             "Open Incident Desk",
-            use_container_width=True
-        )
+            use_container_width=True,
+            type="primary"
+        ):
+            st.switch_page("pages/2_Report_Event.py")
 
 st.divider()
 with open("datasets/dummy.json") as f:
