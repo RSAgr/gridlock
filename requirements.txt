@@ -2,3 +2,6 @@ streamlit
 streamlit-folium
 folium
 pandas
+geopandas
+shapely
+numpy
