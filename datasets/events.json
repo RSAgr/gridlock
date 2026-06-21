@@ -73,5 +73,326 @@
         ],
         "status": "planned",
         "divergence_required": true
+    },
+    {
+        "id": "20260621140247",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:02:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621143823",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:38:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621143852",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:38:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621144309",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621144318",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621150112",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621150123",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621150136",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621150144",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152019",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152028",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152041",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "14:43:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152222",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "15:22:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152244",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "15:22:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152316",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "15:23:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152320",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "15:23:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152517",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "15:23:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 42.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152545",
+        "event_type": "debris",
+        "event_date": "2026-06-21",
+        "event_time": "15:25:00",
+        "attendance": 500,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 44.5,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621152708",
+        "event_type": "accident",
+        "event_date": "2026-06-21",
+        "event_time": "15:25:00",
+        "attendance": 1300,
+        "event_location": "MekhriCircle, Bellary Road 1, West Zone 2",
+        "status": "planned",
+        "ai_divergence_score": 37.3,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621153526",
+        "event_type": "accident",
+        "event_date": "2026-06-21",
+        "event_time": "15:25:00",
+        "attendance": 1300,
+        "event_location": "MekhriCircle, Bellary Road 1, West Zone 2",
+        "status": "planned",
+        "ai_divergence_score": 37.3,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621153700",
+        "event_type": "vehicle_breakdown",
+        "event_date": "2026-06-21",
+        "event_time": "15:36:00",
+        "attendance": 200,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 32.9,
+        "divergence_required": true
+    },
+    {
+        "id": "20260621154542",
+        "event_type": "procession",
+        "event_date": "2026-06-21",
+        "event_time": "15:36:00",
+        "attendance": 200,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "AdugodiJunc, Hosur Road, South Zone 2"
+        ],
+        "status": "planned",
+        "divergence_required": true
+    },
+    {
+        "id": "20260621155308",
+        "event_type": "sports_event",
+        "event_date": "2026-06-21",
+        "event_time": "15:52:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "UCO Bank(Forum), Hosur Road, South Zone 2"
+        ],
+        "status": "planned",
+        "divergence_required": true
+    },
+    {
+        "id": "20260621155637",
+        "event_type": "protest",
+        "event_date": "2026-06-21",
+        "event_time": "15:56:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "UCO Bank(Forum), Hosur Road, South Zone 2",
+            "AnepalyaJunc, Hosur Road, Central Zone 1"
+        ],
+        "status": "planned",
+        "divergence_required": true
+    },
+    {
+        "id": "20260621155700",
+        "event_type": "protest",
+        "event_date": "2026-06-21",
+        "event_time": "15:56:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "UCO Bank(Forum), Hosur Road, South Zone 2"
+        ],
+        "status": "planned",
+        "divergence_required": true
+    },
+    {
+        "id": "20260621155753",
+        "event_type": "protest",
+        "event_date": "2026-06-21",
+        "event_time": "15:56:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "AdugodiJunc, Hosur Road, South Zone 2"
+        ],
+        "status": "planned",
+        "divergence_required": true
+    },
+    {
+        "id": "20260621155904",
+        "event_type": "procession",
+        "event_date": "2026-06-21",
+        "event_time": "15:58:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "UCO Bank(Forum), Hosur Road, South Zone 2"
+        ],
+        "status": "planned",
+        "divergence_required": true
+    },
+    {
+        "id": "20260621161143",
+        "event_type": "pot_holes",
+        "event_date": "2026-06-21",
+        "event_time": "16:11:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 20.8,
+        "divergence_required": false
     }
 ]
