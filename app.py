@@ -1,8 +1,6 @@
 import streamlit as st
 import folium
-import json
 from datetime import datetime
-from pathlib import Path
 from streamlit_folium import st_folium
 
 from components.event_layer import add_event_layer
@@ -12,6 +10,7 @@ from components.deployment_layer import add_deployment_layer
 from components.infrastructure_layer import add_infrastructure_layer
 from components.diversion_layer import add_diversion_layer
 from components.emergency_layer import add_emergency_layer
+from modules.events_store import load_events_document, save_event_records
 
 st.set_page_config(
     page_title="FlowGuard AI",
@@ -57,6 +56,19 @@ def parse_event_datetime(event):
         return None
 
 
+def event_has_started(event):
+    event_dt = parse_event_datetime(event)
+    return bool(event_dt and event_dt <= datetime.now())
+
+
+def save_events_to_disk(event_list):
+    save_event_records(event_list)
+
+
+def get_event_key(event, fallback_index):
+    return str(event.get("id") or event.get("event_id") or fallback_index)
+
+
 def format_event_entry(event):
     title = event.get("event_name") or str(event.get("event_type", "Untitled Event")).replace("_", " ").title()
     details = []
@@ -75,11 +87,21 @@ def format_event_entry(event):
     return f"{title} — {', '.join(details)}" if details else title
 
 
-events_path = Path(__file__).resolve().parent / "datasets" / "events.json"
-with events_path.open(encoding="utf-8") as f:
-    events = json.load(f)
+def get_event_junctions(event):
+    route = event.get("route")
 
-event_records = events if isinstance(events, list) else []
+    if isinstance(route, list) and route:
+        return [str(junction) for junction in route if junction]
+
+    event_location = event.get("event_location")
+    if event_location:
+        return [str(event_location)]
+
+    return []
+
+
+events_document = load_events_document()
+event_records = events_document.get("events", []) if isinstance(events_document, dict) else []
 scheduled_events = [event for event in event_records if event.get("event_date")]
 upcoming_events = [event for event in scheduled_events if str(event.get("status", "")).lower() == "planned"]
 if not upcoming_events:
@@ -89,10 +111,19 @@ live_events = [event for event in event_records if str(event.get("status", "")).
 if not live_events:
     live_events = [event for event in event_records if not event.get("event_date")]
 
+recent_completed_events = [
+    event for event in event_records if event_has_started(event)
+]
+recent_completed_events = sorted(
+    recent_completed_events,
+    key=lambda event: parse_event_datetime(event) or datetime.min,
+    reverse=True
+)[:5]
+
 active_events_count = len(event_records)
 critical_junctions_count = len({event.get("event_location") for event in event_records if event.get("event_location")})
 resources_deployed = sum(safe_int(event.get("attendance")) for event in event_records)
-diversions_active = sum(1 for event in event_records if is_truthy(event.get("divergence_required")))
+diversions_active = sum(1 for event in event_records if is_truthy(event.get("divergence")) and event_has_started(event))
 
 st.divider()
 
@@ -139,8 +170,7 @@ with col2:
             st.switch_page("pages/2_Report_Event.py")
 
 st.divider()
-with open("datasets/dummy.json") as f:
-    data = json.load(f)
+data = events_document if isinstance(events_document, dict) else {}
 
 venue = data["event"]["venue"]
 
@@ -215,3 +245,80 @@ with st.container(border=True):
         st.markdown("\n".join(f"{index}. {format_event_entry(event)}" for index, event in enumerate(live_events, start=1)))
     else:
         st.caption("No live events found in events.json.")
+
+st.divider()
+
+st.subheader("Recent Completed Events")
+
+with st.container(border=True):
+    if recent_completed_events:
+        for index, event in enumerate(recent_completed_events, start=1):
+            row_left, row_right = st.columns([5, 1])
+
+            with row_left:
+                st.markdown(f"**{index}. {format_event_entry(event)}**")
+                if event.get("status"):
+                    st.caption(f"Status: {event['status']}")
+
+            with row_right:
+                event_key = get_event_key(event, index)
+                with st.popover("Feedback", use_container_width=True):
+                    st.caption("Capture a quick completion check-in.")
+
+                    feedback_data = event.get("feedback", {}) if isinstance(event.get("feedback"), dict) else {}
+                    event_junctions = get_event_junctions(event)
+
+                    st.markdown("**Expected officials by junction**")
+                    officials_by_junction = []
+
+                    if event_junctions:
+                        existing_officials = feedback_data.get("officials_by_junction", [])
+                        existing_officials_map = {}
+
+                        if isinstance(existing_officials, list):
+                            for item in existing_officials:
+                                if isinstance(item, dict) and item.get("junction"):
+                                    existing_officials_map[str(item["junction"])] = safe_int(item.get("expected_officials"))
+
+                        for junction_index, junction_name in enumerate(event_junctions, start=1):
+                            officials_by_junction.append({
+                                "junction": junction_name,
+                                "expected_officials": st.number_input(
+                                    f"{junction_name}",
+                                    min_value=0,
+                                    step=1,
+                                    value=existing_officials_map.get(junction_name, 0),
+                                    key=f"officials_{event_key}_{junction_index}"
+                                )
+                            })
+                    else:
+                        st.caption("No route or junction location found for this event.")
+
+                    actual_event_duration = st.number_input(
+                        "Actual Event Duration (minutes)",
+                        min_value=0,
+                        step=1,
+                        value=safe_int(feedback_data.get("actual_event_duration", 0)),
+                        key=f"actual_event_duration_{event_key}"
+                    )
+
+                    feedback_notes = st.text_area(
+                        "Notes",
+                        value=feedback_data.get("notes", ""),
+                        placeholder="What went well? What should improve?",
+                        key=f"feedback_notes_{event_key}"
+                    )
+
+                    if st.button("Save Feedback", type="primary", use_container_width=True, key=f"save_feedback_{event_key}"):
+                        event["status"] = "completed"
+                        event["feedback"] = {
+                            "officials_by_junction": officials_by_junction,
+                            "actual_event_duration": actual_event_duration,
+                            "notes": feedback_notes,
+                            "submitted_at": datetime.now().isoformat(timespec="seconds")
+                        }
+                        save_events_to_disk(event_records)
+                        st.success("Feedback saved.")
+                        st.rerun()
+    else:
+        st.caption("No recent completed events found in events.json yet.")
