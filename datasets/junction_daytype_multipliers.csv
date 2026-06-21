@@ -16,7 +16,7 @@ AgaraJunction,Weekday,1.0
 AnandRaoJunction,Weekday,1.1428571428571428
 AnandRaoJunction,Weekend,0.8571428571428571
 AnepalyaJunc,Weekday,1.6
-AnepalyaJunc,Weekend,0.5
+AnepalyaJunc,Weekend,0.7548
 AnilKumbleCircle,Weekday,1.0
 AnilKumbleCircle,Weekend,1.0
 AnjaneyaTempleJunc,Weekday,1.3333333333333333
@@ -72,7 +72,7 @@ BhashyamCircle-SadashivNagar,Weekday,1.5
 BhashyamCircle-SadashivNagar,Weekend,0.5
 BigBazaar(Whitefield)Junc,Weekday,1.75
 BigBazaar(Whitefield)Junc,Weekend,0.5
-BigBazaarJunction(OldMadrasRd),Weekday,1.4615384615384615
+BigBazaarJunction(OldMadrasRd),Weekday,1.4615384615384617
 BigBazaarJunction(OldMadrasRd),Weekend,0.5384615384615384
 BilekahalliJunc,Weekday,1.7142857142857142
 BilekahalliJunc,Weekend,0.5
@@ -136,7 +136,7 @@ ElectronicCityGate-2Junc,Weekday,1.6666666666666667
 ElectronicCityGate-2Junc,Weekend,0.5
 EliteJunc,Weekday,1.3333333333333333
 EliteJunc,Weekend,0.6666666666666666
-FTI Junction(KanteeravaStudio),Weekday,1.8181818181818181
+FTI Junction(KanteeravaStudio),Weekday,1.818181818181818
 FTI Junction(KanteeravaStudio),Weekend,0.5
 Fire Force Junction,Weekday,1.0
 Fire Force Junction,Weekend,1.0
@@ -272,7 +272,7 @@ MC Circle,Weekday,1.0
 MICO Bande,Weekday,1.0
 MICO Bande,Weekend,1.0
 MS RamaiahJunc(TollGate),Weekday,1.0909090909090908
-MS RamaiahJunc(TollGate),Weekend,0.9090909090909091
+MS RamaiahJunc(TollGate),Weekend,0.9090909090909092
 MSRamaiahHospitalJunc,Weekday,1.0
 MahalaxmiLayoutEntranceJunc,Weekday,1.6
 MahalaxmiLayoutEntranceJunc,Weekend,0.5
@@ -451,7 +451,7 @@ TownhallJunction,Weekday,1.4666666666666666
 TownhallJunction,Weekend,0.5333333333333333
 "Trilight Circle,Race course Road",Weekday,1.0
 TrinityCircle,Weekday,1.0909090909090908
-TrinityCircle,Weekend,0.9090909090909091
+TrinityCircle,Weekend,0.9090909090909092
 TumkurRdMarappanapalyaJunc,Weekday,1.4285714285714286
 TumkurRdMarappanapalyaJunc,Weekend,0.5714285714285714
 TyagiHengalvarayaJunc(DickensonRd),Weekday,0.8

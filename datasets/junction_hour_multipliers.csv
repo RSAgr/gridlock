@@ -147,11 +147,11 @@ BanashankariBusStandJunc,21,2.181818181818182
 BanashankariBusStandJunc,22,0.5454545454545455
 BanashankariBusStandJunc,23,0.5454545454545455
 BangaloreBodyBuildersJunc,0,1.6842105263157894
-BangaloreBodyBuildersJunc,1,0.42105263157894735
+BangaloreBodyBuildersJunc,1,0.4210526315789473
 BangaloreBodyBuildersJunc,5,0.8421052631578947
 BangaloreBodyBuildersJunc,8,0.8421052631578947
-BangaloreBodyBuildersJunc,18,0.42105263157894735
-BangaloreBodyBuildersJunc,19,0.42105263157894735
+BangaloreBodyBuildersJunc,18,0.4210526315789473
+BangaloreBodyBuildersJunc,19,0.4210526315789473
 BangaloreBodyBuildersJunc,20,0.8421052631578947
 BangaloreBodyBuildersJunc,21,2.526315789473684
 Basappa Circle Junction,0,1.0
@@ -197,17 +197,17 @@ BigBazaar(Whitefield)Junc,23,0.75
 BigBazaarJunction(OldMadrasRd),2,0.7692307692307692
 BigBazaarJunction(OldMadrasRd),4,2.3076923076923075
 BigBazaarJunction(OldMadrasRd),5,1.5384615384615383
-BigBazaarJunction(OldMadrasRd),6,1.1538461538461537
+BigBazaarJunction(OldMadrasRd),6,1.1538461538461535
 BigBazaarJunction(OldMadrasRd),7,0.3846153846153846
 BigBazaarJunction(OldMadrasRd),19,1.923076923076923
 BigBazaarJunction(OldMadrasRd),20,0.3846153846153846
 BigBazaarJunction(OldMadrasRd),21,0.3846153846153846
 BigBazaarJunction(OldMadrasRd),22,0.3846153846153846
 BigBazaarJunction(OldMadrasRd),23,0.7692307692307692
-BilekahalliJunc,2,0.42857142857142855
+BilekahalliJunc,2,0.4285714285714285
 BilekahalliJunc,5,1.7142857142857142
-BilekahalliJunc,7,0.42857142857142855
-BilekahalliJunc,11,0.42857142857142855
+BilekahalliJunc,7,0.4285714285714285
+BilekahalliJunc,11,0.4285714285714285
 BilekahalliJunc,20,1.7142857142857142
 BilekahalliJunc,21,1.2857142857142856
 BinnyMillJunction,3,1.0
@@ -224,29 +224,29 @@ BiryandCircle,19,1.0
 BloodBankCircle,1,0.5333333333333333
 BloodBankCircle,2,0.5333333333333333
 BloodBankCircle,4,0.5333333333333333
-BloodBankCircle,5,1.0666666666666667
+BloodBankCircle,5,1.0666666666666669
 BloodBankCircle,7,2.1333333333333333
 BloodBankCircle,9,0.5333333333333333
 BloodBankCircle,19,0.5333333333333333
 BloodBankCircle,23,2.1333333333333333
-Bommanahalli,0,0.46153846153846156
-Bommanahalli,1,0.9230769230769231
-Bommanahalli,2,0.46153846153846156
-Bommanahalli,4,0.46153846153846156
-Bommanahalli,5,0.9230769230769231
+Bommanahalli,0,0.4615384615384615
+Bommanahalli,1,0.9230769230769232
+Bommanahalli,2,0.4615384615384615
+Bommanahalli,4,0.4615384615384615
+Bommanahalli,5,0.9230769230769232
 Bommanahalli,6,1.3846153846153848
-Bommanahalli,7,0.9230769230769231
-Bommanahalli,12,0.46153846153846156
-Bommanahalli,20,0.46153846153846156
-Bommanahalli,21,1.8461538461538463
+Bommanahalli,7,0.9230769230769232
+Bommanahalli,12,0.4615384615384615
+Bommanahalli,20,0.4615384615384615
+Bommanahalli,21,1.8461538461538465
 Bommanahalli,22,3.0
-Bommanahalli,23,0.46153846153846156
+Bommanahalli,23,0.4615384615384615
 BrigadeMillenium,8,1.0
-BucheryJunction,0,0.45454545454545453
-BucheryJunction,1,0.45454545454545453
+BucheryJunction,0,0.4545454545454545
+BucheryJunction,1,0.4545454545454545
 BucheryJunction,6,1.3636363636363635
-BucheryJunction,21,0.9090909090909091
-BucheryJunction,23,1.8181818181818181
+BucheryJunction,21,0.9090909090909092
+BucheryJunction,23,1.818181818181818
 CID-CarltonHouseJunc,3,1.5555555555555554
 CID-CarltonHouseJunc,5,1.5555555555555554
 CID-CarltonHouseJunc,6,0.7777777777777777
@@ -261,13 +261,13 @@ CMH Rd-AdarshTheaterJunc,0,1.2
 CMH Rd-AdarshTheaterJunc,7,0.8
 CMP GateJunc,3,0.8999999999999999
 CMP GateJunc,4,0.8999999999999999
-CMP GateJunc,5,0.44999999999999996
-CMP GateJunc,6,0.44999999999999996
+CMP GateJunc,5,0.4499999999999999
+CMP GateJunc,6,0.4499999999999999
 CMP GateJunc,19,2.6999999999999997
 CMP GateJunc,20,0.8999999999999999
 CMP GateJunc,21,1.7999999999999998
-CMP GateJunc,22,0.44999999999999996
-CMP GateJunc,23,0.44999999999999996
+CMP GateJunc,22,0.4499999999999999
+CMP GateJunc,23,0.4499999999999999
 CashPharmacyJunction,4,1.0
 CashPharmacyJunction,6,1.0
 CashPharmacyJunction,20,1.0
@@ -322,9 +322,9 @@ DevangaHostelJunction,21,0.8
 DevangaHostelJunction,22,0.8
 Devasandra(k r puram),0,0.5333333333333333
 Devasandra(k r puram),1,0.5333333333333333
-Devasandra(k r puram),3,1.0666666666666667
-Devasandra(k r puram),4,1.0666666666666667
-Devasandra(k r puram),5,1.0666666666666667
+Devasandra(k r puram),3,1.0666666666666669
+Devasandra(k r puram),4,1.0666666666666669
+Devasandra(k r puram),5,1.0666666666666669
 Devasandra(k r puram),6,1.6
 Devasandra(k r puram),7,0.5333333333333333
 Devasandra(k r puram),8,0.5333333333333333
@@ -332,7 +332,7 @@ Devasandra(k r puram),9,0.5333333333333333
 Devasandra(k r puram),17,0.5333333333333333
 Devasandra(k r puram),18,3.0
 Devasandra(k r puram),19,0.5333333333333333
-Devasandra(k r puram),20,1.0666666666666667
+Devasandra(k r puram),20,1.0666666666666669
 Devasandra(k r puram),21,1.6
 Devasandra(k r puram),22,0.5333333333333333
 Devasandra(k r puram),23,0.5333333333333333
@@ -407,13 +407,13 @@ GarebhavipalyaJunc,23,0.8
 Geeta Circle,19,1.0
 Geethanjali jn,3,1.0
 Geethanjali jn,23,1.0
-GokuldasImagesJunc,0,0.39285714285714285
+GokuldasImagesJunc,0,0.3928571428571428
 GokuldasImagesJunc,2,1.1785714285714286
-GokuldasImagesJunc,3,0.39285714285714285
-GokuldasImagesJunc,4,0.39285714285714285
-GokuldasImagesJunc,5,0.39285714285714285
+GokuldasImagesJunc,3,0.3928571428571428
+GokuldasImagesJunc,4,0.3928571428571428
+GokuldasImagesJunc,5,0.3928571428571428
 GokuldasImagesJunc,7,0.7857142857142857
-GokuldasImagesJunc,17,0.39285714285714285
+GokuldasImagesJunc,17,0.3928571428571428
 GokuldasImagesJunc,19,1.9642857142857144
 GokuldasImagesJunc,20,1.5714285714285714
 GokuldasImagesJunc,21,2.75
@@ -421,15 +421,15 @@ GokuldasImagesJunc,22,0.7857142857142857
 GopalGowdaJUnc,2,0.6666666666666666
 GopalGowdaJUnc,21,1.3333333333333333
 GorappanapalyaJunction,20,1.0
-GoruguntepalyaJunc,0,1.6500000000000001
+GoruguntepalyaJunc,0,1.65
 GoruguntepalyaJunc,2,1.1
 GoruguntepalyaJunc,3,0.55
 GoruguntepalyaJunc,4,0.55
-GoruguntepalyaJunc,5,1.6500000000000001
+GoruguntepalyaJunc,5,1.65
 GoruguntepalyaJunc,8,0.55
 GoruguntepalyaJunc,10,0.55
 GoruguntepalyaJunc,18,1.1
-GoruguntepalyaJunc,19,1.6500000000000001
+GoruguntepalyaJunc,19,1.65
 GoruguntepalyaJunc,20,1.1
 GoruguntepalyaJunc,23,0.55
 GovindapuraCross,23,1.0
@@ -473,20 +473,20 @@ HennurRoad-ORR Junc,22,1.7647058823529411
 HennurRoad-ORR Junc,23,0.5882352941176471
 HesaraghattaJunction,0,0.5333333333333333
 HesaraghattaJunction,1,1.6
-HesaraghattaJunction,2,1.0666666666666667
+HesaraghattaJunction,2,1.0666666666666669
 HesaraghattaJunction,3,3.0
 HesaraghattaJunction,4,0.5333333333333333
 HesaraghattaJunction,5,0.5333333333333333
 HesaraghattaJunction,6,0.5333333333333333
 HesaraghattaJunction,7,0.5333333333333333
-HesaraghattaJunction,8,1.0666666666666667
+HesaraghattaJunction,8,1.0666666666666669
 HesaraghattaJunction,10,0.5333333333333333
 HesaraghattaJunction,11,0.5333333333333333
-HesaraghattaJunction,12,1.0666666666666667
+HesaraghattaJunction,12,1.0666666666666669
 HesaraghattaJunction,18,0.5333333333333333
-HesaraghattaJunction,19,1.0666666666666667
+HesaraghattaJunction,19,1.0666666666666669
 HesaraghattaJunction,20,1.6
-HesaraghattaJunction,21,1.0666666666666667
+HesaraghattaJunction,21,1.0666666666666669
 HoodiJunction,1,1.0
 HoodiJunction,3,1.0
 HoodiJunction,4,1.0
@@ -522,7 +522,7 @@ HulimaveRd-BanneraghattaRdJunc,0,0.5555555555555556
 HulimaveRd-BanneraghattaRdJunc,6,1.1111111111111112
 HulimaveRd-BanneraghattaRdJunc,20,0.5555555555555556
 HulimaveRd-BanneraghattaRdJunc,21,1.1111111111111112
-HulimaveRd-BanneraghattaRdJunc,22,1.6666666666666665
+HulimaveRd-BanneraghattaRdJunc,22,1.6666666666666663
 HunsemarammanahalliJunction,5,1.1428571428571428
 HunsemarammanahalliJunction,6,0.5714285714285714
 HunsemarammanahalliJunction,18,0.5714285714285714
@@ -621,18 +621,18 @@ K H Road-SiddaiahRdJunc(BMTC-BigBazaar),21,0.8333333333333334
 K H Road-SiddaiahRdJunc(BMTC-BigBazaar),23,0.8333333333333334
 K R Circle,0,1.8666666666666667
 K R Circle,1,0.4666666666666667
-K R Circle,2,1.4000000000000001
-K R Circle,3,0.9333333333333333
-K R Circle,4,0.9333333333333333
+K R Circle,2,1.4
+K R Circle,3,0.9333333333333332
+K R Circle,4,0.9333333333333332
 K R Circle,6,0.4666666666666667
-K R Circle,8,0.9333333333333333
+K R Circle,8,0.9333333333333332
 K R Circle,13,0.4666666666666667
 K R Circle,17,0.4666666666666667
-K R Circle,18,0.9333333333333333
-K R Circle,19,0.9333333333333333
+K R Circle,18,0.9333333333333332
+K R Circle,19,0.9333333333333332
 K R Circle,20,0.4666666666666667
 K R Circle,21,2.8000000000000003
-K R Circle,22,0.9333333333333333
+K R Circle,22,0.9333333333333332
 K R MarketJunction,3,1.0
 K R MarketJunction,4,1.0
 K R MarketJunction,5,1.0
@@ -643,19 +643,19 @@ K R MarketJunction,20,1.0
 KCG HospitalJunction,2,1.0
 KCG HospitalJunction,3,1.0
 KHB Junction,2,1.0
-KIMCO Junction,0,1.6774193548387097
-KIMCO Junction,1,0.41935483870967744
-KIMCO Junction,3,0.41935483870967744
-KIMCO Junction,4,1.2580645161290323
-KIMCO Junction,5,0.41935483870967744
-KIMCO Junction,6,0.41935483870967744
+KIMCO Junction,0,1.6774193548387095
+KIMCO Junction,1,0.4193548387096774
+KIMCO Junction,3,0.4193548387096774
+KIMCO Junction,4,1.2580645161290325
+KIMCO Junction,5,0.4193548387096774
+KIMCO Junction,6,0.4193548387096774
 KIMCO Junction,7,0.8387096774193549
 KIMCO Junction,8,0.8387096774193549
 KIMCO Junction,16,0.8387096774193549
 KIMCO Junction,19,2.096774193548387
 KIMCO Junction,20,2.096774193548387
-KIMCO Junction,21,1.2580645161290323
-KIMCO Junction,23,0.41935483870967744
+KIMCO Junction,21,1.2580645161290325
+KIMCO Junction,23,0.4193548387096774
 KR Road-14thCross Junc,7,1.0
 KadirenahalliJunction,2,0.75
 KadirenahalliJunction,4,1.5
@@ -710,11 +710,11 @@ KhodaysCircle(DV UrsCircle),1,0.4347826086956522
 KhodaysCircle(DV UrsCircle),2,0.4347826086956522
 KhodaysCircle(DV UrsCircle),4,0.8695652173913044
 KhodaysCircle(DV UrsCircle),5,0.4347826086956522
-KhodaysCircle(DV UrsCircle),6,1.3043478260869565
+KhodaysCircle(DV UrsCircle),6,1.3043478260869563
 KhodaysCircle(DV UrsCircle),7,0.4347826086956522
 KhodaysCircle(DV UrsCircle),20,2.173913043478261
 KhodaysCircle(DV UrsCircle),21,1.7391304347826089
-KhodaysCircle(DV UrsCircle),22,1.3043478260869565
+KhodaysCircle(DV UrsCircle),22,1.3043478260869563
 KodigehalliCross,1,1.2727272727272727
 KodigehalliCross,2,1.2727272727272727
 KodigehalliCross,4,1.2727272727272727
@@ -786,9 +786,9 @@ LalbaghMainGateJunc,8,0.8333333333333334
 LalbaghMainGateJunc,23,0.8333333333333334
 LalbaghWestGate,19,1.0
 LeprosyhospitalJunc,1,0.55
-LeprosyhospitalJunc,2,1.6500000000000001
+LeprosyhospitalJunc,2,1.65
 LeprosyhospitalJunc,5,1.1
-LeprosyhospitalJunc,6,1.6500000000000001
+LeprosyhospitalJunc,6,1.65
 LeprosyhospitalJunc,7,0.55
 LeprosyhospitalJunc,8,1.1
 LeprosyhospitalJunc,19,0.55
@@ -848,12 +848,12 @@ MargosaRd-18thCrossJunc,5,0.6666666666666666
 MargosaRd-18thCrossJunc,7,0.6666666666666666
 MargosaRd-18thCrossJunc,21,2.0
 Marigowda-TavarkereRdJunc,3,0.6153846153846154
-Marigowda-TavarkereRdJunc,4,1.8461538461538463
+Marigowda-TavarkereRdJunc,4,1.8461538461538465
 Marigowda-TavarkereRdJunc,7,1.2307692307692308
 Marigowda-TavarkereRdJunc,8,0.6153846153846154
 Marigowda-TavarkereRdJunc,18,0.6153846153846154
 Marigowda-TavarkereRdJunc,20,0.6153846153846154
-Marigowda-TavarkereRdJunc,21,1.8461538461538463
+Marigowda-TavarkereRdJunc,21,1.8461538461538465
 Marigowda-TavarkereRdJunc,23,0.6153846153846154
 MayohallJunction,2,1.0
 MayohallJunction,4,1.0
@@ -883,7 +883,7 @@ MekhriCircle,21,0.53125
 MekhriCircle,22,0.53125
 MekhriCircle,23,2.125
 MillCornerRd-SampigeRdJunc,0,1.1111111111111112
-MillCornerRd-SampigeRdJunc,3,1.6666666666666665
+MillCornerRd-SampigeRdJunc,3,1.6666666666666663
 MillCornerRd-SampigeRdJunc,4,0.5555555555555556
 MillCornerRd-SampigeRdJunc,6,0.5555555555555556
 MillCornerRd-SampigeRdJunc,23,1.1111111111111112
@@ -966,7 +966,7 @@ Nagavara-ORR Junction,6,1.1
 Nagavara-ORR Junction,7,0.3666666666666667
 Nagavara-ORR Junction,19,1.4666666666666668
 Nagavara-ORR Junction,20,1.4666666666666668
-Nagavara-ORR Junction,21,1.8333333333333335
+Nagavara-ORR Junction,21,1.8333333333333337
 Nagavara-ORR Junction,22,1.1
 Nagavara-ORR Junction,23,1.1
 NandiCross(RaniCross),5,1.0
@@ -1085,14 +1085,14 @@ RajajinagarEntranceJunction,0,0.6
 RajajinagarEntranceJunction,3,1.7999999999999998
 RajajinagarEntranceJunction,22,0.6
 RajarajeshwariKalyanaMantapaJunc,20,1.0
-RajeshwariJunc,0,0.40909090909090906
-RajeshwariJunc,2,0.40909090909090906
+RajeshwariJunc,0,0.409090909090909
+RajeshwariJunc,2,0.409090909090909
 RajeshwariJunc,6,2.454545454545454
-RajeshwariJunc,7,0.40909090909090906
+RajeshwariJunc,7,0.409090909090909
 RajeshwariJunc,18,0.8181818181818181
 RajeshwariJunc,19,1.6363636363636362
 RajeshwariJunc,20,1.6363636363636362
-RajeshwariJunc,21,0.40909090909090906
+RajeshwariJunc,21,0.409090909090909
 RajeshwariJunc,22,0.8181818181818181
 RamaiahCircle-UlsoorPoliceStation,0,0.8888888888888888
 RamaiahCircle-UlsoorPoliceStation,3,1.7777777777777777
@@ -1110,8 +1110,8 @@ RamamurthyNagarJunction,13,0.8888888888888888
 RamamurthyNagarJunction,19,1.7777777777777777
 RamamurthyNagarJunction,21,0.8888888888888888
 RamamurthyNagarJunction,23,0.8888888888888888
-Richmond circle jn,0,1.6666666666666665
-Richmond circle jn,5,1.6666666666666665
+Richmond circle jn,0,1.6666666666666663
+Richmond circle jn,5,1.6666666666666663
 Richmond circle jn,8,0.5555555555555556
 Richmond circle jn,18,0.5555555555555556
 Richmond circle jn,21,0.5555555555555556
@@ -1129,7 +1129,7 @@ RingRoad-UllalJunction,20,1.0
 RingRoad-UllalJunction,23,1.0
 RoyanCircle-Chamrajpete,1,1.0
 SRS Peenya Junc,0,0.55
-SRS Peenya Junc,1,1.6500000000000001
+SRS Peenya Junc,1,1.65
 SRS Peenya Junc,2,0.55
 SRS Peenya Junc,3,1.1
 SRS Peenya Junc,4,2.2
@@ -1193,25 +1193,25 @@ SatteliteBusStandJunc,1,1.186046511627907
 SatteliteBusStandJunc,2,1.186046511627907
 SatteliteBusStandJunc,3,1.186046511627907
 SatteliteBusStandJunc,4,1.186046511627907
-SatteliteBusStandJunc,5,0.39534883720930236
-SatteliteBusStandJunc,6,1.9767441860465118
+SatteliteBusStandJunc,5,0.3953488372093023
+SatteliteBusStandJunc,6,1.976744186046512
 SatteliteBusStandJunc,8,1.186046511627907
 SatteliteBusStandJunc,9,0.7906976744186047
-SatteliteBusStandJunc,10,0.39534883720930236
-SatteliteBusStandJunc,17,0.39534883720930236
-SatteliteBusStandJunc,18,0.39534883720930236
-SatteliteBusStandJunc,19,1.9767441860465118
+SatteliteBusStandJunc,10,0.3953488372093023
+SatteliteBusStandJunc,17,0.3953488372093023
+SatteliteBusStandJunc,18,0.3953488372093023
+SatteliteBusStandJunc,19,1.976744186046512
 SatteliteBusStandJunc,20,1.186046511627907
 SatteliteBusStandJunc,21,1.186046511627907
-SatteliteBusStandJunc,22,0.39534883720930236
+SatteliteBusStandJunc,22,0.3953488372093023
 SatteliteBusStandJunc,23,0.7906976744186047
 ShankarMuttCircle,4,1.0
 ShankarMuttCircle,20,1.0
 ShankarMuttCircle,23,1.0
 ShantalaJunction,0,0.4666666666666667
-ShantalaJunction,3,0.9333333333333333
+ShantalaJunction,3,0.9333333333333332
 ShantalaJunction,6,0.4666666666666667
-ShantalaJunction,7,0.9333333333333333
+ShantalaJunction,7,0.9333333333333332
 ShantalaJunction,21,1.8666666666666667
 ShantalaJunction,22,0.4666666666666667
 ShantalaJunction,23,1.8666666666666667
@@ -1257,7 +1257,7 @@ SiddapuraJunction,19,0.8
 SiddapuraJunction,22,0.8
 SilkBoardJunc,0,0.393939393939394
 SilkBoardJunc,1,0.787878787878788
-SilkBoardJunc,2,1.9696969696969697
+SilkBoardJunc,2,1.9696969696969695
 SilkBoardJunc,5,0.393939393939394
 SilkBoardJunc,8,0.787878787878788
 SilkBoardJunc,9,0.787878787878788
@@ -1267,7 +1267,7 @@ SilkBoardJunc,13,0.393939393939394
 SilkBoardJunc,18,0.393939393939394
 SilkBoardJunc,19,2.757575757575758
 SilkBoardJunc,20,0.787878787878788
-SilkBoardJunc,21,2.3636363636363638
+SilkBoardJunc,21,2.363636363636364
 SindhiColonyJunction,3,0.7777777777777777
 SindhiColonyJunction,5,1.5555555555555554
 SindhiColonyJunction,7,0.7777777777777777
@@ -1346,20 +1346,20 @@ TataInstituteCircle,20,0.5833333333333334
 TataInstituteCircle,22,0.5833333333333334
 TataInstituteCircle,23,1.75
 ThomasCafe-New,23,1.0
-TownhallJunction,0,0.9333333333333333
-TownhallJunction,1,0.9333333333333333
-TownhallJunction,2,1.4000000000000001
+TownhallJunction,0,0.9333333333333332
+TownhallJunction,1,0.9333333333333332
+TownhallJunction,2,1.4
 TownhallJunction,3,0.4666666666666667
-TownhallJunction,4,1.4000000000000001
+TownhallJunction,4,1.4
 TownhallJunction,5,0.4666666666666667
-TownhallJunction,6,0.9333333333333333
-TownhallJunction,7,0.9333333333333333
+TownhallJunction,6,0.9333333333333332
+TownhallJunction,7,0.9333333333333332
 TownhallJunction,18,0.4666666666666667
-TownhallJunction,19,1.4000000000000001
-TownhallJunction,20,0.9333333333333333
-TownhallJunction,21,0.9333333333333333
-TownhallJunction,22,1.4000000000000001
-TownhallJunction,23,1.4000000000000001
+TownhallJunction,19,1.4
+TownhallJunction,20,0.9333333333333332
+TownhallJunction,21,0.9333333333333332
+TownhallJunction,22,1.4
+TownhallJunction,23,1.4
 "Trilight Circle,Race course Road",7,1.0
 TrinityCircle,1,0.6363636363636364
 TrinityCircle,2,0.6363636363636364
@@ -1496,15 +1496,17 @@ YeshwanthpuraCircle,20,0.3684210526315789
 YeshwanthpuraCircle,21,2.9473684210526314
 YeshwanthpuraCircle,22,1.4736842105263157
 YeshwanthpuraCircle,23,0.3684210526315789
-toll gate mysore road,0,0.36363636363636365
-toll gate mysore road,1,0.36363636363636365
+toll gate mysore road,0,0.3636363636363636
+toll gate mysore road,1,0.3636363636363636
 toll gate mysore road,2,1.4545454545454546
-toll gate mysore road,3,0.36363636363636365
-toll gate mysore road,8,0.36363636363636365
-toll gate mysore road,9,0.36363636363636365
+toll gate mysore road,3,0.3636363636363636
+toll gate mysore road,8,0.3636363636363636
+toll gate mysore road,9,0.3636363636363636
 toll gate mysore road,18,0.7272727272727273
-toll gate mysore road,19,1.8181818181818181
+toll gate mysore road,19,1.818181818181818
 toll gate mysore road,20,1.4545454545454546
-toll gate mysore road,21,1.8181818181818181
+toll gate mysore road,21,1.818181818181818
 toll gate mysore road,22,2.5454545454545454
-toll gate mysore road,23,0.36363636363636365
+toll gate mysore road,23,0.3636363636363636
+AnepalyaJunc,17,1.125
+AnepalyaJunc,18,1.3419

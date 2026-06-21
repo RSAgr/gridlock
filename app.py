@@ -11,6 +11,8 @@ from components.infrastructure_layer import add_infrastructure_layer
 from components.diversion_layer import add_diversion_layer
 from components.emergency_layer import add_emergency_layer
 from modules.events_store import load_events_document, save_event_records
+from modules.self_learning import self_learn
+import pandas as pd
 
 st.set_page_config(
     page_title="FlowGuard AI",
@@ -268,7 +270,7 @@ with st.container(border=True):
                     feedback_data = event.get("feedback", {}) if isinstance(event.get("feedback"), dict) else {}
                     event_junctions = get_event_junctions(event)
 
-                    st.markdown("**Expected officials by junction**")
+                    st.markdown("**Actual officials deployed by junction**")
                     officials_by_junction = []
 
                     if event_junctions:
@@ -281,15 +283,43 @@ with st.container(border=True):
                                     existing_officials_map[str(item["junction"])] = safe_int(item.get("expected_officials"))
 
                         for junction_index, junction_name in enumerate(event_junctions, start=1):
+
+                            predicted_officers = None
+
+                            deployment_prediction = event.get(
+                                "deployment_prediction",
+                                {}
+                            )
+
+                            if (
+                                deployment_prediction
+                                and deployment_prediction.get("junction")
+                            ):
+                                predicted_officers = deployment_prediction.get(
+                                    "predicted_officers"
+                                )
+
+                            st.markdown(f"**{junction_name}**")
+
+                            if predicted_officers is not None:
+                                st.info(
+                                    f"🤖 AI Predicted: {predicted_officers} officers"
+                                )
+
+                            actual_officers = st.number_input(
+                                "Actual officers deployed",
+                                min_value=0,
+                                step=1,
+                                value=existing_officials_map.get(
+                                    junction_name,
+                                    0
+                                ),
+                                key=f"officials_{event_key}_{junction_index}"
+                            )
+
                             officials_by_junction.append({
                                 "junction": junction_name,
-                                "expected_officials": st.number_input(
-                                    f"{junction_name}",
-                                    min_value=0,
-                                    step=1,
-                                    value=existing_officials_map.get(junction_name, 0),
-                                    key=f"officials_{event_key}_{junction_index}"
-                                )
+                                "expected_officials": actual_officers
                             })
                     else:
                         st.caption("No route or junction location found for this event.")
@@ -309,16 +339,111 @@ with st.container(border=True):
                         key=f"feedback_notes_{event_key}"
                     )
 
-                    if st.button("Save Feedback", type="primary", use_container_width=True, key=f"save_feedback_{event_key}"):
+                    if st.button(
+                        "Save Feedback",
+                        type="primary",
+                        use_container_width=True,
+                        key=f"save_feedback_{event_key}"
+                    ):
+
+                        prediction = event.get("deployment_prediction")
+
+                        if prediction:
+
+                            junction_df = pd.read_csv(
+                                "datasets/junction_scores.csv"
+                            )
+
+                            junction_day_df = pd.read_csv(
+                                "datasets/junction_daytype_multipliers.csv"
+                            )
+
+                            junction_hour_df = pd.read_csv(
+                                "datasets/junction_hour_multipliers.csv"
+                            )
+
+                            event_df = pd.read_csv(
+                                "datasets/event_congestion_scores.csv"
+                            )
+
+                            feedback_for_learning = [
+                                {
+                                    "junction": prediction["junction"],
+                                    "predicted_officers": prediction["predicted_officers"],
+                                    "actual_officers": officials_by_junction[0]["expected_officials"]
+                                }
+                            ]
+
+                            (
+                                junction_df,
+                                junction_day_df,
+                                junction_hour_df,
+                                event_df
+                            ) = self_learn(
+                                feedback_data=feedback_for_learning,
+                                event_type=event["event_type"],
+                                day_type=(
+                                    "Weekend"
+                                    if pd.to_datetime(event["event_date"]).dayofweek >= 5
+                                    else "Weekday"
+                                ),
+                                hour=pd.to_datetime(event["event_time"]).hour,
+                                junction_df=junction_df,
+                                junction_day_df=junction_day_df,
+                                junction_hour_df=junction_hour_df,
+                                event_df=event_df
+                            )
+
+                            junction_df.to_csv(
+                                "datasets/junction_scores.csv",
+                                index=False
+                            )
+
+                            junction_day_df.to_csv(
+                                "datasets/junction_daytype_multipliers.csv",
+                                index=False
+                            )
+
+                            junction_hour_df.to_csv(
+                                "datasets/junction_hour_multipliers.csv",
+                                index=False
+                            )
+
+                            event_df.to_csv(
+                                "datasets/event_congestion_scores.csv",
+                                index=False
+                            )
+
                         event["status"] = "completed"
+
                         event["feedback"] = {
                             "officials_by_junction": officials_by_junction,
                             "actual_event_duration": actual_event_duration,
                             "notes": feedback_notes,
                             "submitted_at": datetime.now().isoformat(timespec="seconds")
                         }
+
                         save_events_to_disk(event_records)
+
                         st.success("Feedback saved.")
                         st.rerun()
+
+                        if prediction:
+
+                            junction_df = pd.read_csv(
+                                "datasets/junction_scores.csv"
+                            )
+
+                            junction_day_df = pd.read_csv(
+                                "datasets/junction_daytype_multipliers.csv"
+                            )
+
+                            junction_hour_df = pd.read_csv(
+                                "datasets/junction_hour_multipliers.csv"
+                            )
+
+                            event_df = pd.read_csv(
+                                "datasets/event_congestion_scores.csv"
+                            )                   
     else:
         st.caption("No recent completed events found in events.json yet.")

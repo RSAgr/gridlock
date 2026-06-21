@@ -1,4 +1,4 @@
-﻿{
+{
     "event": {
         "name": "City Event",
         "type": "General",
@@ -32,18 +32,78 @@
     "alerts": [],
     "events": [
         {
-            "id": "20260621161616",
-            "event_type": "debris",
+            "id": "20260621170304",
+            "event_type": "tree_fall",
             "event_date": "2026-06-21",
-            "event_time": "16:16:00",
+            "event_time": "17:01:00",
             "attendance": 0,
             "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
             "status": "planned",
-            "ai_divergence_score": 42.5,
             "divergence": true
+        },
+        {
+            "id": "20260621175428",
+            "event_type": "tree_fall",
+            "event_date": "2026-06-21",
+            "event_time": "17:53:00",
+            "attendance": 0,
+            "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "status": "completed",
+            "divergence": true,
+            "deployment_prediction": {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 3
+            },
+            "feedback": {
+                "officials_by_junction": [
+                    {
+                        "junction": "AnepalyaJunc, Hosur Road, Central Zone 1",
+                        "expected_officials": 8
+                    }
+                ],
+                "actual_event_duration": 98,
+                "notes": "Tree fell",
+                "submitted_at": "2026-06-21T18:34:10"
+            }
+        },
+        {
+            "id": "20260621183700",
+            "event_type": "tree_fall",
+            "event_date": "2026-06-21",
+            "event_time": "18:36:00",
+            "attendance": 0,
+            "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "status": "completed",
+            "divergence": true,
+            "deployment_prediction": {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 4
+            },
+            "feedback": {
+                "officials_by_junction": [
+                    {
+                        "junction": "AnepalyaJunc, Hosur Road, Central Zone 1",
+                        "expected_officials": 10
+                    }
+                ],
+                "actual_event_duration": 0,
+                "notes": "NA",
+                "submitted_at": "2026-06-21T18:42:17"
+            }
+        },
+        {
+            "id": "20260621184227",
+            "event_type": "tree_fall",
+            "event_date": "2026-06-21",
+            "event_time": "18:42:00",
+            "attendance": 0,
+            "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "status": "planned",
+            "divergence": true,
+            "deployment_prediction": {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 6
+            }
         }
-    ],
-    "feedback": {
-        
-    }
+    ]
 }

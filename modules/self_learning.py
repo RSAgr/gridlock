@@ -1,3 +1,4 @@
+import pandas as pd
 def self_learn(
     feedback_data,
     event_type,
