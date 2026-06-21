@@ -1,12 +1,11 @@
 import streamlit as st
 from datetime import date
 import pandas as pd
-import json
-import os
 from datetime import datetime
 
 from modules.routing_engine import RoutingEngine
 from modules.divergence_scorer import calculate_divergence_requirement
+from modules.events_store import append_event
 
 st.set_page_config(page_title="Plan Event", page_icon="📅", layout="wide")
 
@@ -26,19 +25,7 @@ engine = get_engine()
 e_scores, j_scores = load_scoring_data()
 
 def save_event(event_data):
-    file_path = "./datasets/events.json"
-    os.makedirs(os.path.dirname(file_path), exist_ok=True)
-    if os.path.exists(file_path):
-        try:
-            with open(file_path, "r") as f:
-                events = json.load(f)
-        except:
-            events = []
-    else:
-        events = []
-    events.append(event_data)
-    with open(file_path, "w") as f:
-        json.dump(events, f, indent=4)
+    append_event(event_data)
 
 all_nodes_dict = engine.get_all_nodes_dict()
 

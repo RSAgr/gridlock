@@ -1,93 +1,49 @@
-[
-    {
-        "event_id": 1,
-        "event_name": "Delhi Marathon",
-        "event_type": "Marathon",
-        "divergence": false
+﻿{
+    "event": {
+        "name": "City Event",
+        "type": "General",
+        "venue": {
+            "name": "City Center",
+            "lat": 12.9788,
+            "lon": 77.5996
+        },
+        "impact_radius": 1000
     },
-    {
-        "event_id": 2,
-        "event_name": "Music Festival",
-        "event_type": "Concert",
-        "divergence": false
+    "risk_analysis": {
+        "score": 0,
+        "level": "Low",
+        "affected_junctions": 0,
+        "critical_junctions": 0
     },
-    {
-        "id": "20260620231649",
-        "event_type": "tree_fall",
-        "event_date": "2026-06-20",
-        "event_time": "23:16:00",
-        "attendance": 22,
-        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
-        "status": "planned",
-        "divergence": false
+    "junctions": [],
+    "critical_zones": [],
+    "deployment": {
+        "officers": [],
+        "barricades": []
     },
-    {
-        "id": "20260620231755",
-        "event_type": "debris",
-        "event_date": "2026-06-20",
-        "event_time": "23:17:00",
-        "attendance": 0,
-        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
-        "status": "planned",
-        "divergence": false
+    "infrastructure": {
+        "hospitals": [],
+        "schools": [],
+        "fire_stations": [],
+        "police_stations": []
     },
-    {
-        "id": "20260620233821",
-        "event_type": "debris",
-        "event_date": "2026-06-20",
-        "event_time": "23:38:00",
-        "attendance": 0,
-        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
-        "status": "planned",
-        "divergence": false
-    },
-    {
-        "id": "20260620233822",
-        "event_type": "debris",
-        "event_date": "2026-06-20",
-        "event_time": "23:38:00",
-        "attendance": 0,
-        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
-        "status": "planned",
-        "divergence": false
-    },
-    {
-        "id": "20260620233952",
-        "event_type": "tree_fall",
-        "event_date": "2026-06-20",
-        "event_time": "23:39:00",
-        "attendance": 0,
-        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
-        "status": "planned",
-        "divergence": false
-    },
-    {
-        "id": "20260621131349",
-        "event_type": "sports_event",
-        "event_date": "2026-06-21",
-        "event_time": "13:13:00",
-        "attendance": 0,
-        "route": [
-            "AnepalyaJunc, Hosur Road, Central Zone 1",
-            "AdugodiJunc, Hosur Road, South Zone 2"
-        ],
-        "status": "planned",
-        "divergence": true
-    },
-    {
-        "id": "20260621132542",
-        "event_type": "tree_fall",
-        "event_date": "2026-06-21",
-        "event_time": "13:25:00",
-        "attendance": 0,
-        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
-        "status": "completed",
-        "ai_divergence_score": 31.8,
-        "divergence": true,
-        "feedback": {
-            "rating": 4,
-            "notes": "",
-            "submitted_at": "2026-06-21T13:41:29"
+    "diversions": [],
+    "emergency_corridors": [],
+    "alerts": [],
+    "events": [
+        {
+            "id": "20260621161616",
+            "event_type": "debris",
+            "event_date": "2026-06-21",
+            "event_time": "16:16:00",
+            "attendance": 0,
+            "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "status": "planned",
+            "ai_divergence_score": 42.5,
+            "divergence": true
         }
+    ],
+    "feedback": {
+        
     }
-]
+}

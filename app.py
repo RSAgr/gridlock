@@ -1,8 +1,6 @@
 import streamlit as st
 import folium
-import json
 from datetime import datetime
-from pathlib import Path
 from streamlit_folium import st_folium
 
 from components.event_layer import add_event_layer
@@ -12,6 +10,7 @@ from components.deployment_layer import add_deployment_layer
 from components.infrastructure_layer import add_infrastructure_layer
 from components.diversion_layer import add_diversion_layer
 from components.emergency_layer import add_emergency_layer
+from modules.events_store import load_events_document, save_event_records
 
 st.set_page_config(
     page_title="FlowGuard AI",
@@ -63,8 +62,7 @@ def event_has_started(event):
 
 
 def save_events_to_disk(event_list):
-    with events_path.open("w", encoding="utf-8") as f:
-        json.dump(event_list, f, indent=4)
+    save_event_records(event_list)
 
 
 def get_event_key(event, fallback_index):
@@ -102,19 +100,8 @@ def get_event_junctions(event):
     return []
 
 
-def get_default_event_time(event):
-    event_dt = parse_event_datetime(event)
-    if event_dt:
-        return event_dt.time().replace(microsecond=0)
-
-    return datetime.now().time().replace(second=0, microsecond=0)
-
-
-events_path = Path(__file__).resolve().parent / "datasets" / "events.json"
-with events_path.open(encoding="utf-8") as f:
-    events = json.load(f)
-
-event_records = events if isinstance(events, list) else []
+events_document = load_events_document()
+event_records = events_document.get("events", []) if isinstance(events_document, dict) else []
 scheduled_events = [event for event in event_records if event.get("event_date")]
 upcoming_events = [event for event in scheduled_events if str(event.get("status", "")).lower() == "planned"]
 if not upcoming_events:
@@ -183,8 +170,7 @@ with col2:
             st.switch_page("pages/2_Report_Event.py")
 
 st.divider()
-with open("datasets/dummy.json") as f:
-    data = json.load(f)
+data = events_document if isinstance(events_document, dict) else {}
 
 venue = data["event"]["venue"]
 
