@@ -179,6 +179,23 @@ def get_event_expected_officers(event, feedback_data):
     ]
 
 
+def get_event_predicted_officers(event):
+    deployment_prediction = event.get("deployment_prediction", [])
+    if not isinstance(deployment_prediction, list):
+        return None
+
+    predicted_counts = [
+        safe_int(item.get("predicted_officers"))
+        for item in deployment_prediction
+        if isinstance(item, dict) and item.get("predicted_officers") is not None
+    ]
+
+    if not predicted_counts:
+        return None
+
+    return sum(predicted_counts)
+
+
 def sync_feedback_widget_state(event_key, feedback_data, expected_officers):
     notes_key = f"feedback_notes_{event_key}"
     duration_key = f"actual_event_duration_{event_key}"
@@ -603,7 +620,18 @@ st.subheader("Live Events")
 
 with st.container(border=True):
     if live_events:
-        st.markdown("\n".join(f"{index}. {format_event_entry(event)}" for index, event in enumerate(live_events, start=1)))
+        for index, event in enumerate(live_events, start=1):
+            row_left, row_right = st.columns([5, 1])
+            predicted_officers = get_event_predicted_officers(event)
+
+            with row_left:
+                st.markdown(f"**{index}. {format_event_entry(event)}**")
+
+            with row_right:
+                if predicted_officers is None:
+                    st.caption("Officers pending")
+                else:
+                    st.metric("Officers", predicted_officers)
     else:
         st.caption("No live events found in events.json.")
 

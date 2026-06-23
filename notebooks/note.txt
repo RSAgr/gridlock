@@ -1,0 +1,1 @@
+This notebooks folder has just been to show our experimentation and idea behind the respective scores. We do acknowledge that this area is really ill-organized and names can be confusing as well as deceiving, mainly because we never planned to add the colab notebooks until recently when we realized it can be helpful for future and our readers!
