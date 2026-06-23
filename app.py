@@ -102,6 +102,22 @@ def get_event_junctions(event):
     return []
 
 
+def get_event_expected_officers(event, feedback_data):
+    expected_officers = event.get("expected_officers", [])
+    if isinstance(expected_officers, list):
+        return [safe_int(value) for value in expected_officers]
+
+    existing_officials = feedback_data.get("officials_by_junction", [])
+    if not isinstance(existing_officials, list):
+        return []
+
+    return [
+        safe_int(item.get("expected_officials"))
+        for item in existing_officials
+        if isinstance(item, dict)
+    ]
+
+
 events_document = load_events_document()
 event_records = events_document.get("events", []) if isinstance(events_document, dict) else []
 scheduled_events = [event for event in event_records if event.get("event_date")]
@@ -247,13 +263,7 @@ with st.container(border=True):
                     officials_by_junction = []
 
                     if event_junctions:
-                        existing_officials = feedback_data.get("officials_by_junction", [])
-                        existing_officials_map = {}
-
-                        if isinstance(existing_officials, list):
-                            for item in existing_officials:
-                                if isinstance(item, dict) and item.get("junction"):
-                                    existing_officials_map[str(item["junction"])] = safe_int(item.get("expected_officials"))
+                        existing_expected_officers = get_event_expected_officers(event, feedback_data)
 
                         for junction_index, junction_name in enumerate(event_junctions, start=1):
 
@@ -283,9 +293,10 @@ with st.container(border=True):
                                 "Actual officers deployed",
                                 min_value=0,
                                 step=1,
-                                value=existing_officials_map.get(
-                                    junction_name,
-                                    0
+                                value=(
+                                    existing_expected_officers[junction_index - 1]
+                                    if junction_index - 1 < len(existing_expected_officers)
+                                    else 0
                                 ),
                                 key=f"officials_{event_key}_{junction_index}"
                             )
@@ -320,8 +331,12 @@ with st.container(border=True):
                     ):
 
                         prediction = event.get("deployment_prediction")
+                        expected_officers = [
+                            safe_int(item["expected_officials"])
+                            for item in officials_by_junction
+                        ]
 
-                        if prediction:
+                        if prediction and expected_officers:
 
                             junction_df = pd.read_csv(
                                 "datasets/junction_scores.csv"
@@ -343,7 +358,7 @@ with st.container(border=True):
                                 {
                                     "junction": prediction["junction"],
                                     "predicted_officers": prediction["predicted_officers"],
-                                    "actual_officers": officials_by_junction[0]["expected_officials"]
+                                    "actual_officers": expected_officers[0]
                                 }
                             ]
 
@@ -388,6 +403,7 @@ with st.container(border=True):
                             )
 
                         event["status"] = "completed"
+                        event["expected_officers"] = expected_officers
 
                         event["feedback"] = {
                             "officials_by_junction": officials_by_junction,

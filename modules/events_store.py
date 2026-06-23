@@ -1,5 +1,6 @@
 import json
 from copy import deepcopy
+from datetime import datetime
 from pathlib import Path
 
 DATASETS_DIR = Path(__file__).resolve().parent.parent / "datasets"
@@ -72,6 +73,28 @@ def _write_json(path, payload):
         json.dump(payload, file, indent=4)
 
 
+def _new_event_id():
+    return datetime.now().strftime("%Y%m%d%H%M%S%f")
+
+
+def _ensure_event_id(event_data, existing_events):
+    if not isinstance(event_data, dict):
+        return event_data
+
+    existing_ids = {
+        str(event.get("id"))
+        for event in existing_events
+        if isinstance(event, dict) and event.get("id") is not None
+    }
+
+    event_id = str(event_data.get("id") or _new_event_id())
+    while event_id in existing_ids:
+        event_id = _new_event_id()
+
+    event_data["id"] = event_id
+    return event_data
+
+
 def _build_base_union_document():
     base = _default_map_payload()
     base["events"] = []
@@ -102,23 +125,27 @@ def normalize_events_document(payload):
     return merged
 
 
+def get_event_records(payload):
+    if isinstance(payload, list):
+        return payload
+
+    if isinstance(payload, dict) and isinstance(payload.get("events"), list):
+        return payload["events"]
+
+    return []
+
+
 def load_events_document():
     raw_payload = _read_json(EVENTS_PATH)
-    normalized_payload = normalize_events_document(raw_payload)
-
-    if raw_payload != normalized_payload:
-        _write_json(EVENTS_PATH, normalized_payload)
-
-    return normalized_payload
+    return normalize_events_document(raw_payload)
 
 
 def append_event(event_data):
-    payload = load_events_document()
-    payload["events"].append(event_data)
-    _write_json(EVENTS_PATH, payload)
+    event_records = get_event_records(_read_json(EVENTS_PATH))
+    event_data = _ensure_event_id(event_data, event_records)
+    event_records.append(event_data)
+    _write_json(EVENTS_PATH, event_records)
 
 
 def save_event_records(event_records):
-    payload = load_events_document()
-    payload["events"] = event_records if isinstance(event_records, list) else []
-    _write_json(EVENTS_PATH, payload)
+    _write_json(EVENTS_PATH, event_records if isinstance(event_records, list) else [])

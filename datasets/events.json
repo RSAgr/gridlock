@@ -1,37 +1,27 @@
-﻿{
-    "event": {
-        "name": "City Event",
-        "type": "General",
-        "venue": {
-            "name": "City Center",
-            "lat": 12.9788,
-            "lon": 77.5996
-        },
-        "impact_radius": 1000
-    },
-    "risk_analysis": {
-        "score": 0,
-        "level": "Low",
-        "affected_junctions": 0,
-        "critical_junctions": 0
-    },
-    "junctions": [],
-    "critical_zones": [],
-    "deployment": {
-        "officers": [],
-        "barricades": []
-    },
-    "infrastructure": {
-        "hospitals": [],
-        "schools": [],
-        "fire_stations": [],
-        "police_stations": []
-    },
-    "diversions": [],
-    "emergency_corridors": [],
-    "alerts": [],
-    "events": [],
-    "expected_officers": [],
-    "expected_time": "2024-07-01T18:00:00Z",
-    "actual_time": null
-}
+[
+    {
+        "id": "20260622182720",
+        "event_type": "pot_holes",
+        "event_date": "2026-06-22",
+        "event_time": "18:27:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "completed",
+        "ai_divergence_score": 23.5,
+        "divergence": false,
+        "expected_officers": [
+            3
+        ],
+        "feedback": {
+            "officials_by_junction": [
+                {
+                    "junction": "AnepalyaJunc, Hosur Road, Central Zone 1",
+                    "expected_officials": 3
+                }
+            ],
+            "actual_event_duration": 2,
+            "notes": "",
+            "submitted_at": "2026-06-22T18:27:47"
+        }
+    }
+]
