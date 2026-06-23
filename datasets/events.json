@@ -101,5 +101,179 @@
             "South_Zone_2_Hosur_Road_AdugodiJunc",
             "Central_Zone_1_Hosur_Road_JohnsonMarket"
         ]
+    },
+    {
+        "id": "20260623204408738675",
+        "event_type": "tree_fall",
+        "event_date": "2026-06-23",
+        "event_time": "20:44:00",
+        "attendance": 0,
+        "event_node_id": "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 46.5,
+        "divergence": true,
+        "deployment_prediction": [
+            {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 6,
+                "actual_officers": null
+            }
+        ],
+        "suggested_diversion_node_ids": [
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "Central_Zone_1_Hosur_Road_JohnsonMarket"
+        ],
+        "diversion_route_node_ids": [
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "Central_Zone_1_Hosur_Road_JohnsonMarket"
+        ]
+    },
+    {
+        "id": "20260623204421997093",
+        "event_type": "vip_movement",
+        "event_date": "2026-06-23",
+        "event_time": "20:44:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "AdugodiJunc, Hosur Road, South Zone 2",
+            "MICO Bande, Non-corridor, South Zone 2"
+        ],
+        "route_node_ids": [
+            "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "South_Zone_2_Non-corridor_MICO_Bande"
+        ],
+        "status": "planned",
+        "divergence": true
+    },
+    {
+        "id": "20260623204425585190",
+        "event_type": "vip_movement",
+        "event_date": "2026-06-23",
+        "event_time": "20:44:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "AdugodiJunc, Hosur Road, South Zone 2",
+            "MICO Bande, Non-corridor, South Zone 2",
+            "AdugodiJunc, Hosur Road, South Zone 2"
+        ],
+        "route_node_ids": [
+            "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "South_Zone_2_Non-corridor_MICO_Bande",
+            "South_Zone_2_Hosur_Road_AdugodiJunc"
+        ],
+        "status": "planned",
+        "divergence": true
+    },
+    {
+        "id": "20260623204454162730",
+        "event_type": "vip_movement",
+        "event_date": "2026-06-23",
+        "event_time": "20:44:00",
+        "attendance": 0,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "UCO Bank(Forum), Hosur Road, South Zone 2",
+            "AdugodiJunc, Hosur Road, South Zone 2"
+        ],
+        "route_node_ids": [
+            "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+            "South_Zone_2_Hosur_Road_UCO_Bank(Forum)",
+            "South_Zone_2_Hosur_Road_AdugodiJunc"
+        ],
+        "status": "planned",
+        "divergence": true,
+        "diversion_route_node_ids": [
+            "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+            "South_Zone_2_Hosur_Road_AdugodiJunc"
+        ],
+        "diversion_route": [
+            "AnepalyaJunc, Hosur Road",
+            "AdugodiJunc, Hosur Road"
+        ]
+    },
+    {
+        "id": "20260623210127600605",
+        "event_type": "debris",
+        "event_date": "2026-06-23",
+        "event_time": "21:01:00",
+        "attendance": 0,
+        "event_node_id": "Central_Zone_1_IRR(Thanisandra_road)_BM_ShriJunc(CMH-100FtRd)Junc",
+        "event_location": "BM ShriJunc(CMH-100FtRd)Junc, IRR(Thanisandra road), Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 45.6,
+        "divergence": true,
+        "deployment_prediction": [
+            {
+                "junction": "BMShriJunc(CMH-100FtRd)Junc",
+                "predicted_officers": 0,
+                "actual_officers": null
+            }
+        ],
+        "suggested_diversion_node_ids": [
+            "Central_Zone_1_IRR(Thanisandra_road)_Indiranasgar13thMainJunc"
+        ],
+        "diversion_route_node_ids": [
+            "Central_Zone_1_IRR(Thanisandra_road)_Indiranasgar13thMainJunc"
+        ]
+    },
+    {
+        "id": "20260623210229642869",
+        "event_type": "vip_movement",
+        "event_date": "2026-06-23",
+        "event_time": "21:02:00",
+        "attendance": 1000,
+        "route": [
+            "AnepalyaJunc, Hosur Road, Central Zone 1",
+            "AdugodiJunc, Hosur Road, South Zone 2"
+        ],
+        "route_node_ids": [
+            "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+            "South_Zone_2_Hosur_Road_AdugodiJunc"
+        ],
+        "status": "planned",
+        "divergence": true,
+        "diversion_route_node_ids": [
+            "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+            "South_Zone_2_Hosur_Road_UCO_Bank(Forum)",
+            "South_Zone_2_Hosur_Road_AdugodiJunc"
+        ],
+        "diversion_route": [
+            "AnepalyaJunc, Hosur Road",
+            "UCO Bank(Forum), Hosur Road",
+            "AdugodiJunc, Hosur Road"
+        ]
+    },
+    {
+        "id": "20260623210840040063",
+        "event_type": "pot_holes",
+        "event_date": "2026-06-23",
+        "event_time": "21:08:00",
+        "estimated_end_time": "2026-06-23T21:13:00",
+        "attendance": 0,
+        "event_node_id": "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 22.1,
+        "divergence": false,
+        "deployment_prediction": [
+            {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 4,
+                "actual_officers": null
+            }
+        ],
+        "suggested_diversion_node_ids": [
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "Central_Zone_1_Hosur_Road_JohnsonMarket"
+        ],
+        "diversion_route_node_ids": [
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "Central_Zone_1_Hosur_Road_JohnsonMarket"
+        ]
     }
 ]

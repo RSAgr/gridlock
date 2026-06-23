@@ -1,7 +1,10 @@
 import streamlit as st
 import folium
 from copy import deepcopy
-from datetime import datetime
+import ast
+import colorsys
+import hashlib
+from datetime import datetime, timedelta
 from streamlit_folium import st_folium
 
 from components.event_layer import add_event_layer
@@ -65,12 +68,68 @@ def event_has_started(event):
     return bool(event_dt and event_dt <= datetime.now())
 
 
+def parse_event_end_datetime(event):
+    estimated_end = event.get("estimated_end_time") or event.get("end_datetime")
+    if estimated_end:
+        try:
+            return datetime.fromisoformat(str(estimated_end))
+        except ValueError:
+            pass
+
+    end_date = event.get("end_date") or event.get("event_date")
+    end_time = event.get("end_time")
+    if end_date and end_time:
+        try:
+            return datetime.fromisoformat(f"{end_date}T{end_time}")
+        except ValueError:
+            return None
+
+    start_dt = parse_event_datetime(event)
+    if start_dt:
+        return start_dt + timedelta(minutes=5)
+
+    return None
+
+
+def event_is_live(event):
+    if str(event.get("status", "")).lower() == "completed":
+        return False
+
+    start_dt = parse_event_datetime(event)
+    end_dt = parse_event_end_datetime(event)
+    now = datetime.now()
+
+    if start_dt and end_dt:
+        return start_dt <= now <= (end_dt + timedelta(minutes=5))
+    if start_dt:
+        return start_dt <= now <= (start_dt + timedelta(minutes=5))
+
+    return str(event.get("status", "")).lower() == "live"
+
+
 def save_events_to_disk(event_list):
     save_event_records(event_list)
 
 
 def get_event_key(event, fallback_index):
     return str(event.get("id") or event.get("event_id") or fallback_index)
+
+
+def _rgb_to_hex(rgb):
+    return "#{:02x}{:02x}{:02x}".format(*rgb)
+
+
+def get_event_color_pair(event_key):
+    digest = hashlib.md5(str(event_key).encode("utf-8")).hexdigest()
+    hue = int(digest[:8], 16) / 0xFFFFFFFF
+
+    dark_rgb = colorsys.hsv_to_rgb(hue, 0.78, 0.72)
+    light_rgb = colorsys.hsv_to_rgb(hue, 0.42, 0.92)
+
+    return {
+        "route_color": _rgb_to_hex(tuple(int(round(channel * 255)) for channel in dark_rgb)),
+        "diversion_color": _rgb_to_hex(tuple(int(round(channel * 255)) for channel in light_rgb)),
+    }
 
 
 def format_event_entry(event):
@@ -195,14 +254,86 @@ def resolve_event_nodes(event, node_details_by_id, node_details_by_label):
 
 def resolve_diversion_nodes(event, node_details_by_id):
     diversion_node_ids = event.get("diversion_route_node_ids", [])
-    if not isinstance(diversion_node_ids, list):
-        return []
+    if not isinstance(diversion_node_ids, list) or not diversion_node_ids:
+        diversion_node_ids = event.get("suggested_diversion_node_ids", [])
+        if not isinstance(diversion_node_ids, list):
+            return []
 
     return [
         node_details_by_id[str(node_id)]
         for node_id in diversion_node_ids
         if str(node_id) in node_details_by_id
     ]
+
+
+def build_road_following_path(engine, node_ids, node_details_by_id):
+    if not isinstance(node_ids, list) or len(node_ids) < 2:
+        return []
+
+    if hasattr(engine, "get_route_geometry"):
+        try:
+            geometry = engine.get_route_geometry([str(node_id) for node_id in node_ids])
+            if geometry:
+                return geometry
+        except Exception:
+            pass
+
+    if not hasattr(engine, "edge_geometries"):
+        edge_geometries = {}
+
+        path_df = engine.df[engine.df["route_path"].notna() & (engine.df["route_path"] != "")]
+        for _, row in path_df.iterrows():
+            try:
+                coords = ast.literal_eval(str(row["route_path"]).strip())
+                if not isinstance(coords, list):
+                    continue
+            except Exception:
+                continue
+
+            seq = []
+            snapped_points = []
+            for idx, coord in enumerate(coords):
+                if len(coord) != 2:
+                    continue
+                nid = engine._map_gps(coord[0], coord[1]) if hasattr(engine, "_map_gps") else None
+                if nid and (not seq or seq[-1] != nid):
+                    seq.append(nid)
+                    snapped_points.append((nid, idx))
+
+            for i in range(len(seq) - 1):
+                node_a = seq[i]
+                node_b = seq[i + 1]
+                start_idx = snapped_points[i][1]
+                end_idx = snapped_points[i + 1][1]
+                if end_idx > start_idx:
+                    segment = coords[start_idx:end_idx + 1]
+                    if len(segment) > 1:
+                        edge_geometries.setdefault((node_a, node_b), segment)
+                        edge_geometries.setdefault((node_b, node_a), list(reversed(segment)))
+
+        engine.edge_geometries = edge_geometries
+
+    geometry = []
+    for idx in range(len(node_ids) - 1):
+        node_a = str(node_ids[idx])
+        node_b = str(node_ids[idx + 1])
+        segment = engine.edge_geometries.get((node_a, node_b), [])
+
+        if not segment:
+            if node_a in node_details_by_id and node_b in node_details_by_id:
+                segment = [
+                    [node_details_by_id[node_a]["lat"], node_details_by_id[node_a]["lon"]],
+                    [node_details_by_id[node_b]["lat"], node_details_by_id[node_b]["lon"]],
+                ]
+            else:
+                continue
+
+        if geometry and segment:
+            geometry.extend(segment[1:])
+        else:
+            geometry.extend(segment)
+
+    return geometry
 
 
 def pick_focus_event(event_records, node_details_by_id, node_details_by_label):
@@ -244,7 +375,10 @@ def build_map_data(events_document, event_records, node_details_by_id, node_deta
 
     junctions_by_name = {}
 
-    for event in event_records:
+    for index, event in enumerate(event_records):
+        event_key = get_event_key(event, fallback_index=index)
+        color_pair = get_event_color_pair(event_key)
+
         resolved_nodes = resolve_event_nodes(
             event,
             node_details_by_id,
@@ -278,16 +412,46 @@ def build_map_data(events_document, event_records, node_details_by_id, node_deta
             }
 
         diversion_nodes = resolve_diversion_nodes(event, node_details_by_id)
-        if divergence and len(resolved_nodes) > 1 and len(diversion_nodes) > 1:
+        route_node_ids = event.get("route_node_ids", [])
+        if not isinstance(route_node_ids, list):
+            route_node_ids = []
+
+        diversion_node_ids = event.get("diversion_route_node_ids", [])
+        if not isinstance(diversion_node_ids, list) or not diversion_node_ids:
+            diversion_node_ids = event.get("suggested_diversion_node_ids", [])
+        if not isinstance(diversion_node_ids, list):
+            diversion_node_ids = []
+
+        if divergence and len(route_node_ids) > 1 and len(diversion_node_ids) > 1:
             data["diversions"].append({
-                "blocked_route": [
-                    [node["lat"], node["lon"]]
-                    for node in resolved_nodes
-                ],
-                "alternate_route": [
-                    [node["lat"], node["lon"]]
-                    for node in diversion_nodes
-                ]
+                "event_key": event_key,
+                "route_color": color_pair["route_color"],
+                "diversion_color": color_pair["diversion_color"],
+                "blocked_route": build_road_following_path(
+                    engine=map_engine,
+                    node_ids=route_node_ids,
+                    node_details_by_id=node_details_by_id,
+                ),
+                "alternate_route": build_road_following_path(
+                    engine=map_engine,
+                    node_ids=diversion_node_ids,
+                    node_details_by_id=node_details_by_id,
+                ),
+            })
+        elif divergence and resolved_nodes and diversion_nodes:
+            # Single-point events store suggested diversion nodes instead of a full route.
+            # Render those recommendations as a visible diversion corridor from the event node.
+            data["diversions"].append({
+                "event_key": event_key,
+                "route_color": color_pair["route_color"],
+                "diversion_color": color_pair["diversion_color"],
+                "alternate_route": build_road_following_path(
+                    engine=map_engine,
+                    node_ids=[
+                        str(event.get("event_node_id") or resolved_nodes[0]["node_id"])
+                    ] + [str(node_id) for node_id in diversion_node_ids],
+                    node_details_by_id=node_details_by_id,
+                )
             })
 
     data["junctions"] = list(junctions_by_name.values())
@@ -326,7 +490,7 @@ upcoming_events = [event for event in scheduled_events if str(event.get("status"
 if not upcoming_events:
     upcoming_events = scheduled_events
 
-live_events = [event for event in event_records if str(event.get("status", "")).lower() == "live"]
+live_events = [event for event in event_records if event_is_live(event)]
 if not live_events:
     live_events = [event for event in event_records if not event.get("event_date")]
 

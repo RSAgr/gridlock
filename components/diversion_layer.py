@@ -4,18 +4,27 @@ def add_diversion_layer(m, data):
 
     for route in data["diversions"]:
 
-        folium.PolyLine(
-            route["blocked_route"],
-            color="#dc2626",
-            weight=4,
-            dash_array="10,10"
-        ).add_to(m)
+        blocked_route = route.get("blocked_route", [])
+        alternate_route = route.get("alternate_route", [])
+        route_color = route.get("route_color", "#dc2626")
+        diversion_color = route.get("diversion_color", "#93c5fd")
 
-        folium.PolyLine(
-            route["alternate_route"],
-            color="#2563eb",
-            weight=5
-        ).add_to(m)
+        if len(blocked_route) > 1:
+            folium.PolyLine(
+                blocked_route,
+                color=route_color,
+                weight=5,
+                opacity=0.95,
+                dash_array="10,10"
+            ).add_to(m)
+
+        if len(alternate_route) > 1:
+            folium.PolyLine(
+                alternate_route,
+                color=diversion_color,
+                weight=5,
+                opacity=0.85
+            ).add_to(m)
 
     for barricade in data["deployment"]["barricades"]:
 

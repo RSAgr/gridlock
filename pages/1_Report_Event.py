@@ -9,6 +9,7 @@ from modules.calculate_officers import calculate_officers
 from modules.refresh_officer_count import refresh_officer_availability
 from modules.events_store import (append_event,load_events_document,save_event_records)
 from modules.calculate_officers import calculate_officers
+from datetime import timedelta
 
 st.set_page_config(page_title="Plan Event", page_icon="📅", layout="wide")
 
@@ -54,6 +55,10 @@ engine = get_engine()
 
 def save_event(event_data):
     append_event(event_data)
+
+
+def build_event_end_time(event_date, event_time, minimum_minutes=5):
+    return datetime.combine(event_date, event_time) + timedelta(minutes=minimum_minutes)
 
 
 def update_saved_event(event_id, updates):
@@ -150,6 +155,7 @@ if event_type in route_based_events:
                 "event_type": event_type,
                 "event_date": str(event_date),
                 "event_time": str(event_time),
+                "estimated_end_time": build_event_end_time(event_date, event_time).isoformat(timespec="seconds"),
                 "attendance": expected_attendance,
                 "route": [all_nodes_dict[n] for n in st.session_state.route_path],
                 "route_node_ids": st.session_state.route_path,
@@ -171,6 +177,7 @@ if event_type in route_based_events:
                     "event_type": event_type,
                     "event_date": str(event_date),
                     "event_time": str(event_time),
+                    "estimated_end_time": build_event_end_time(event_date, event_time).isoformat(timespec="seconds"),
                     "attendance": expected_attendance,
                     "route": [all_nodes_dict[n] for n in st.session_state.route_path],
                     "route_node_ids": st.session_state.route_path,
@@ -378,6 +385,7 @@ else:
                 "event_type": event_type,
                 "event_date": str(event_date),
                 "event_time": str(event_time),
+                "estimated_end_time": build_event_end_time(event_date, event_time).isoformat(timespec="seconds"),
                 "attendance": expected_attendance,
                 "event_node_id": event_location,
                 "event_location": all_nodes_dict[event_location],
@@ -443,6 +451,7 @@ else:
                 "event_type": event_type,
                 "event_date": str(event_date),
                 "event_time": str(event_time),
+                "estimated_end_time": build_event_end_time(event_date, event_time).isoformat(timespec="seconds"),
                 "attendance": expected_attendance,
                 "event_node_id": event_location,
                 "event_location": all_nodes_dict[event_location],
@@ -484,7 +493,10 @@ else:
             )
             update_saved_event(
                 event_id,
-                {"suggested_diversion_node_ids": suggested_diversion_node_ids}
+                {
+                    "suggested_diversion_node_ids": suggested_diversion_node_ids,
+                    "diversion_route_node_ids": suggested_diversion_node_ids,
+                }
             )
 
             st.success("Stationary Event processed successfully.")

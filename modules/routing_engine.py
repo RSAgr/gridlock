@@ -50,6 +50,7 @@ class RoutingEngine:
 
         # Fast Lookup Dictionary
         self.node_lookup = self.unique_nodes.set_index('node_id')[['junction', 'corridor', 'zone']].to_dict(orient='index')
+        self.edge_geometries = {}
 
     def _map_gps(self, lat, lon):
         try:
@@ -72,15 +73,24 @@ class RoutingEngine:
             except Exception: continue
             
             seq = []
-            for coord in coords:
+            snapped_points = []
+            for idx, coord in enumerate(coords):
                 if len(coord) == 2:
                     nid = self._map_gps(coord[0], coord[1])
                     if nid and (not seq or seq[-1] != nid):
                         seq.append(nid)
-                        
+                        snapped_points.append((nid, idx))
+
             for i in range(len(seq)-1):
                 node_a = seq[i]
                 node_b = seq[i+1]
+                start_idx = snapped_points[i][1]
+                end_idx = snapped_points[i + 1][1]
+                if end_idx > start_idx:
+                    segment = coords[start_idx:end_idx + 1]
+                    if len(segment) > 1:
+                        self.edge_geometries.setdefault((node_a, node_b), segment)
+                        self.edge_geometries.setdefault((node_b, node_a), list(reversed(segment)))
                 
                 # Add forward connection (i -> i+1)
                 self.adj_list[node_a].add(node_b)
@@ -89,6 +99,40 @@ class RoutingEngine:
                 self.adj_list[node_b].add(node_a)
                 
         self.adj_graph = {k: list(v) for k, v in self.adj_list.items()}
+
+    def get_route_geometry(self, node_ids):
+        """Return a road-following polyline built from the historical trace segments."""
+        if not isinstance(node_ids, list) or len(node_ids) < 2:
+            return []
+
+        geometry = []
+
+        for idx in range(len(node_ids) - 1):
+            node_a = str(node_ids[idx])
+            node_b = str(node_ids[idx + 1])
+            segment = self.edge_geometries.get((node_a, node_b))
+
+            if not segment:
+                if node_a in self.node_lookup and node_b in self.node_lookup:
+                    segment = [
+                        [
+                            float(self.unique_nodes[self.unique_nodes["node_id"] == node_a].iloc[0]["latitude"]),
+                            float(self.unique_nodes[self.unique_nodes["node_id"] == node_a].iloc[0]["longitude"]),
+                        ],
+                        [
+                            float(self.unique_nodes[self.unique_nodes["node_id"] == node_b].iloc[0]["latitude"]),
+                            float(self.unique_nodes[self.unique_nodes["node_id"] == node_b].iloc[0]["longitude"]),
+                        ],
+                    ]
+                else:
+                    continue
+
+            if geometry and segment:
+                geometry.extend(segment[1:])
+            else:
+                geometry.extend(segment)
+
+        return geometry
 
     # --- UI HELPER FUNCTIONS ---
     def get_all_nodes_dict(self):
