@@ -19,9 +19,87 @@
                     "expected_officials": 3
                 }
             ],
-            "actual_event_duration": 2,
+            "actual_event_duration": 3,
             "notes": "",
-            "submitted_at": "2026-06-22T18:27:47"
+            "submitted_at": "2026-06-23T18:49:19"
         }
+    },
+    {
+        "id": "20260623185436",
+        "event_type": "debris",
+        "event_date": "2026-06-23",
+        "event_time": "18:54:00",
+        "attendance": 0,
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "completed",
+        "ai_divergence_score": 45.2,
+        "divergence": true,
+        "deployment_prediction": [
+            {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 8,
+                "actual_officers": null
+            }
+        ],
+        "expected_officers": [
+            2
+        ],
+        "feedback": {
+            "officials_by_junction": [
+                {
+                    "junction": "AnepalyaJunc, Hosur Road, Central Zone 1",
+                    "expected_officials": 2
+                }
+            ],
+            "actual_event_duration": 0,
+            "notes": "",
+            "submitted_at": "2026-06-23T18:57:02"
+        }
+    },
+    {
+        "id": "20260623190811588840",
+        "event_type": "vehicle_breakdown",
+        "event_date": "2026-06-23",
+        "event_time": "19:08:00",
+        "attendance": 0,
+        "event_node_id": "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 34.9,
+        "divergence": true,
+        "deployment_prediction": [
+            {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 5,
+                "actual_officers": null
+            }
+        ],
+        "suggested_diversion_node_ids": [
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "Central_Zone_1_Hosur_Road_JohnsonMarket"
+        ]
+    },
+    {
+        "id": "20260623190901169357",
+        "event_type": "water_logging",
+        "event_date": "2026-06-23",
+        "event_time": "19:08:00",
+        "attendance": 0,
+        "event_node_id": "Central_Zone_1_Hosur_Road_AnepalyaJunc",
+        "event_location": "AnepalyaJunc, Hosur Road, Central Zone 1",
+        "status": "planned",
+        "ai_divergence_score": 38.8,
+        "divergence": true,
+        "deployment_prediction": [
+            {
+                "junction": "AnepalyaJunc",
+                "predicted_officers": 5,
+                "actual_officers": null
+            }
+        ],
+        "suggested_diversion_node_ids": [
+            "South_Zone_2_Hosur_Road_AdugodiJunc",
+            "Central_Zone_1_Hosur_Road_JohnsonMarket"
+        ]
     }
 ]

@@ -1,5 +1,6 @@
 import streamlit as st
 import folium
+from copy import deepcopy
 from datetime import datetime
 from streamlit_folium import st_folium
 
@@ -10,6 +11,7 @@ from components.deployment_layer import add_deployment_layer
 from components.infrastructure_layer import add_infrastructure_layer
 from components.diversion_layer import add_diversion_layer
 from components.emergency_layer import add_emergency_layer
+from modules.routing_engine import RoutingEngine
 from modules.events_store import load_events_document, save_event_records
 from modules.self_learning import self_learn
 import pandas as pd
@@ -118,8 +120,207 @@ def get_event_expected_officers(event, feedback_data):
     ]
 
 
+def sync_feedback_widget_state(event_key, feedback_data, expected_officers):
+    notes_key = f"feedback_notes_{event_key}"
+    duration_key = f"actual_event_duration_{event_key}"
+
+    if notes_key not in st.session_state:
+        st.session_state[notes_key] = feedback_data.get("notes", "")
+
+    if duration_key not in st.session_state:
+        st.session_state[duration_key] = safe_int(
+            feedback_data.get("actual_event_duration", 0)
+        )
+
+    for junction_index, officer_count in enumerate(expected_officers, start=1):
+        officer_key = f"officials_{event_key}_{junction_index}"
+        if officer_key not in st.session_state:
+            st.session_state[officer_key] = safe_int(officer_count)
+
+
+@st.cache_resource
+def get_map_engine():
+    return RoutingEngine("datasets/givenData.csv")
+
+
+def build_node_lookup_maps(engine):
+    node_details_by_id = {}
+    node_details_by_label = {}
+
+    for row in engine.unique_nodes.itertuples():
+        label = (
+            f"{row.junction.replace('_', ' ')}, "
+            f"{row.corridor.replace('_', ' ')}, "
+            f"{row.zone.replace('_', ' ')}"
+        )
+        details = {
+            "node_id": row.node_id,
+            "label": label,
+            "lat": float(row.latitude),
+            "lon": float(row.longitude),
+        }
+        node_details_by_id[str(row.node_id)] = details
+        node_details_by_label[label] = details
+
+    return node_details_by_id, node_details_by_label
+
+
+def resolve_event_nodes(event, node_details_by_id, node_details_by_label):
+    resolved_nodes = []
+    seen = set()
+
+    route_node_ids = event.get("route_node_ids", [])
+    if isinstance(route_node_ids, list) and route_node_ids:
+        for node_id in route_node_ids:
+            details = node_details_by_id.get(str(node_id))
+            if details and details["node_id"] not in seen:
+                resolved_nodes.append(details)
+                seen.add(details["node_id"])
+        return resolved_nodes
+
+    event_node_id = event.get("event_node_id")
+    if event_node_id:
+        details = node_details_by_id.get(str(event_node_id))
+        if details:
+            return [details]
+
+    for label in get_event_junctions(event):
+        details = node_details_by_label.get(str(label))
+        if details and details["node_id"] not in seen:
+            resolved_nodes.append(details)
+            seen.add(details["node_id"])
+
+    return resolved_nodes
+
+
+def resolve_diversion_nodes(event, node_details_by_id):
+    diversion_node_ids = event.get("diversion_route_node_ids", [])
+    if not isinstance(diversion_node_ids, list):
+        return []
+
+    return [
+        node_details_by_id[str(node_id)]
+        for node_id in diversion_node_ids
+        if str(node_id) in node_details_by_id
+    ]
+
+
+def pick_focus_event(event_records, node_details_by_id, node_details_by_label):
+    sorted_events = sorted(
+        event_records,
+        key=lambda event: parse_event_datetime(event) or datetime.min,
+        reverse=True
+    )
+
+    for status in ("live", "planned", "completed"):
+        for event in sorted_events:
+            if str(event.get("status", "")).lower() != status:
+                continue
+
+            resolved_nodes = resolve_event_nodes(
+                event,
+                node_details_by_id,
+                node_details_by_label
+            )
+            if resolved_nodes:
+                return event, resolved_nodes
+
+    for event in sorted_events:
+        resolved_nodes = resolve_event_nodes(
+            event,
+            node_details_by_id,
+            node_details_by_label
+        )
+        if resolved_nodes:
+            return event, resolved_nodes
+
+    return None, []
+
+
+def build_map_data(events_document, event_records, node_details_by_id, node_details_by_label):
+    data = deepcopy(events_document) if isinstance(events_document, dict) else {}
+    data["junctions"] = []
+    data["diversions"] = []
+
+    junctions_by_name = {}
+
+    for event in event_records:
+        resolved_nodes = resolve_event_nodes(
+            event,
+            node_details_by_id,
+            node_details_by_label
+        )
+        if not resolved_nodes:
+            continue
+
+        divergence = is_truthy(event.get("divergence"))
+        risk_score = float(
+            event.get("ai_divergence_score")
+            if event.get("ai_divergence_score") is not None
+            else (80 if divergence else 40)
+        )
+        risk_level = "Critical" if divergence else "Moderate"
+
+        for node in resolved_nodes:
+            existing = junctions_by_name.get(node["label"])
+            if existing:
+                if risk_score > existing["risk_score"]:
+                    existing["risk_score"] = risk_score
+                    existing["risk_level"] = risk_level
+                continue
+
+            junctions_by_name[node["label"]] = {
+                "name": node["label"],
+                "lat": node["lat"],
+                "lon": node["lon"],
+                "risk_level": risk_level,
+                "risk_score": risk_score,
+            }
+
+        diversion_nodes = resolve_diversion_nodes(event, node_details_by_id)
+        if divergence and len(resolved_nodes) > 1 and len(diversion_nodes) > 1:
+            data["diversions"].append({
+                "blocked_route": [
+                    [node["lat"], node["lon"]]
+                    for node in resolved_nodes
+                ],
+                "alternate_route": [
+                    [node["lat"], node["lon"]]
+                    for node in diversion_nodes
+                ]
+            })
+
+    data["junctions"] = list(junctions_by_name.values())
+
+    focus_event, focus_nodes = pick_focus_event(
+        event_records,
+        node_details_by_id,
+        node_details_by_label
+    )
+    if focus_event and focus_nodes:
+        avg_lat = sum(node["lat"] for node in focus_nodes) / len(focus_nodes)
+        avg_lon = sum(node["lon"] for node in focus_nodes) / len(focus_nodes)
+        data["event"] = {
+            "name": (
+                focus_event.get("event_name")
+                or str(focus_event.get("event_type", "Event")).replace("_", " ").title()
+            ),
+            "type": str(focus_event.get("event_type", "Event")).replace("_", " ").title(),
+            "venue": {
+                "name": focus_nodes[0]["label"],
+                "lat": avg_lat,
+                "lon": avg_lon,
+            },
+            "impact_radius": max(700, len(focus_nodes) * 350),
+        }
+
+    return data
+
+
 events_document = load_events_document()
 event_records = events_document.get("events", []) if isinstance(events_document, dict) else []
+map_engine = get_map_engine()
+node_details_by_id, node_details_by_label = build_node_lookup_maps(map_engine)
 scheduled_events = [event for event in event_records if event.get("event_date")]
 upcoming_events = [event for event in scheduled_events if str(event.get("status", "")).lower() == "planned"]
 if not upcoming_events:
@@ -174,7 +375,12 @@ with st.container(border=True):
         st.switch_page("pages/1_Report_Event.py")
 
 st.divider()
-data = events_document if isinstance(events_document, dict) else {}
+data = build_map_data(
+    events_document,
+    event_records,
+    node_details_by_id,
+    node_details_by_label
+)
 
 venue = data["event"]["venue"]
 
@@ -253,18 +459,32 @@ with st.container(border=True):
 
             with row_right:
                 event_key = get_event_key(event, index)
-                with st.popover("Feedback", use_container_width=True):
+                feedback_data = event.get("feedback", {}) if isinstance(event.get("feedback"), dict) else {}
+                has_saved_feedback = bool(feedback_data)
+                popover_label = "Feedback Saved" if has_saved_feedback else "Feedback"
+
+                with st.popover(popover_label, use_container_width=True):
                     st.caption("Capture a quick completion check-in.")
 
-                    feedback_data = event.get("feedback", {}) if isinstance(event.get("feedback"), dict) else {}
                     event_junctions = get_event_junctions(event)
 
                     st.markdown("**Actual officials deployed by junction**")
                     officials_by_junction = []
+                    existing_expected_officers = get_event_expected_officers(
+                        event,
+                        feedback_data
+                    )
+                    sync_feedback_widget_state(
+                        event_key,
+                        feedback_data,
+                        existing_expected_officers
+                    )
+
+                    submitted_at = feedback_data.get("submitted_at")
+                    if submitted_at:
+                        st.success(f"Saved on {submitted_at.replace('T', ' ')}")
 
                     if event_junctions:
-                        existing_expected_officers = get_event_expected_officers(event, feedback_data)
-
                         for junction_index, junction_name in enumerate(event_junctions, start=1):
 
                             predicted_officers = None
@@ -306,10 +526,13 @@ with st.container(border=True):
                                 "Actual officers deployed",
                                 min_value=0,
                                 step=1,
-                                value=(
-                                    existing_expected_officers[junction_index - 1]
-                                    if junction_index - 1 < len(existing_expected_officers)
-                                    else 0
+                                value=st.session_state.get(
+                                    f"officials_{event_key}_{junction_index}",
+                                    (
+                                        existing_expected_officers[junction_index - 1]
+                                        if junction_index - 1 < len(existing_expected_officers)
+                                        else 0
+                                    )
                                 ),
                                 key=f"officials_{event_key}_{junction_index}"
                             )
@@ -321,23 +544,32 @@ with st.container(border=True):
                     else:
                         st.caption("No route or junction location found for this event.")
 
+                    duration_key = f"actual_event_duration_{event_key}"
+                    notes_key = f"feedback_notes_{event_key}"
+
                     actual_event_duration = st.number_input(
                         "Actual Event Duration (minutes)",
                         min_value=0,
                         step=1,
-                        value=safe_int(feedback_data.get("actual_event_duration", 0)),
-                        key=f"actual_event_duration_{event_key}"
+                        value=st.session_state.get(
+                            duration_key,
+                            safe_int(feedback_data.get("actual_event_duration", 0))
+                        ),
+                        key=duration_key
                     )
 
                     feedback_notes = st.text_area(
                         "Notes",
-                        value=feedback_data.get("notes", ""),
+                        value=st.session_state.get(
+                            notes_key,
+                            feedback_data.get("notes", "")
+                        ),
                         placeholder="What went well? What should improve?",
-                        key=f"feedback_notes_{event_key}"
+                        key=notes_key
                     )
 
                     if st.button(
-                        "Save Feedback",
+                        "Update Feedback" if has_saved_feedback else "Save Feedback",
                         type="primary",
                         use_container_width=True,
                         key=f"save_feedback_{event_key}"

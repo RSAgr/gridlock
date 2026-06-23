@@ -209,7 +209,12 @@ class RoutingEngine:
             
             # Average Health across the completed BFS graph route
             avg_health = 1 / (1 + (total_penalty / len(alternate_path)))
-            return {"status": "success", "path": path_details, "avg_health": avg_health}
+            return {
+                "status": "success",
+                "path": path_details,
+                "node_ids": alternate_path,
+                "avg_health": avg_health
+            }
         else:
             fallback = self.get_single_point_diversions(start_node, hr, is_wknd).head(3)
             return {"status": "fallback", "nodes": fallback}

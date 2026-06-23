@@ -55,6 +55,17 @@ engine = get_engine()
 def save_event(event_data):
     append_event(event_data)
 
+
+def update_saved_event(event_id, updates):
+    events_doc = load_events_document()
+    events = events_doc["events"]
+
+    for event in events:
+        if str(event.get("id")) == str(event_id):
+            event.update(updates)
+            save_event_records(events)
+            return
+
 all_nodes_dict = engine.get_all_nodes_dict()
 
 st.title("📅 Event Planner")
@@ -132,14 +143,16 @@ if event_type in route_based_events:
 
     with save_col:
         if st.button("💾 Save Event", use_container_width=True):
+            event_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
 
             payload = {
-                "id": datetime.now().strftime("%Y%m%d%H%M%S"),
+                "id": event_id,
                 "event_type": event_type,
                 "event_date": str(event_date),
                 "event_time": str(event_time),
                 "attendance": expected_attendance,
                 "route": [all_nodes_dict[n] for n in st.session_state.route_path],
+                "route_node_ids": st.session_state.route_path,
                 "status": "planned",
                 "divergence": False
             }
@@ -151,19 +164,22 @@ if event_type in route_based_events:
         if st.button("🚧 Generate Diversion Plan", type="primary", use_container_width=True):
             refresh_officer_availability(current_time=f"{event_date} {event_time}")
             if len(st.session_state.route_path) > 1:
+                event_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
 
                 payload = {
-                    "id": datetime.now().strftime("%Y%m%d%H%M%S"),
+                    "id": event_id,
                     "event_type": event_type,
                     "event_date": str(event_date),
                     "event_time": str(event_time),
                     "attendance": expected_attendance,
                     "route": [all_nodes_dict[n] for n in st.session_state.route_path],
+                    "route_node_ids": st.session_state.route_path,
                     "status": "planned",
                     "divergence": True
                 }
 
                 save_event(payload)
+                st.session_state["route_event_id"] = event_id
 
                 st.subheader(
                     "🤖 FlowGuard AI Route Detour Generation"
@@ -185,6 +201,16 @@ if event_type in route_based_events:
                                 node["junction"].replace(" ", "")
                                 for node in detour["path"]
                             ]
+                        update_saved_event(
+                            event_id,
+                            {
+                                "diversion_route_node_ids": detour.get("node_ids", []),
+                                "diversion_route": [
+                                    f"{step['junction']}, {step['corridor']}"
+                                    for step in detour["path"]
+                                ]
+                            }
+                        )
                         st.session_state["diversion_junctions"] = diversion_junctions
                         st.session_state["detour_generated"] = True
                         st.session_state["event_type"] = event_type
@@ -264,8 +290,11 @@ if event_type in route_based_events:
                     )
         events_doc = load_events_document()
         events = events_doc["events"]
+        route_event_id = st.session_state.get("route_event_id")
 
         for event in reversed(events):
+            if route_event_id and str(event.get("id")) != str(route_event_id):
+                continue
 
             if (
                 event.get("event_type")
@@ -317,6 +346,7 @@ else:
 
     with save_col:
         if st.button("💾 Save Event", use_container_width=True):
+            event_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
 
             day_type = (
                 "Weekend"
@@ -344,11 +374,12 @@ else:
             ]
 
             payload = {
-                "id": datetime.now().strftime("%Y%m%d%H%M%S"),
+                "id": event_id,
                 "event_type": event_type,
                 "event_date": str(event_date),
                 "event_time": str(event_time),
                 "attendance": expected_attendance,
+                "event_node_id": event_location,
                 "event_location": all_nodes_dict[event_location],
                 "status": "planned",
                 "divergence": bool(div_assessment['requires_divergence']),
@@ -385,6 +416,7 @@ else:
     with diversion_col:
         if st.button("🚧 Generate Diversion Plan", type="primary", use_container_width=True):
             refresh_officer_availability(current_time=f"{event_date} {event_time}")
+            event_id = datetime.now().strftime("%Y%m%d%H%M%S%f")
             day_type = (
                 "Weekend"
                 if pd.to_datetime(event_date).dayofweek >= 5
@@ -407,11 +439,12 @@ else:
                 }
             ]
             payload = {
-                "id": datetime.now().strftime("%Y%m%d%H%M%S"),
+                "id": event_id,
                 "event_type": event_type,
                 "event_date": str(event_date),
                 "event_time": str(event_time),
                 "attendance": expected_attendance,
+                "event_node_id": event_location,
                 "event_location": all_nodes_dict[event_location],
                 "status": "planned",
                 "ai_divergence_score": div_assessment['score'],
@@ -443,6 +476,16 @@ else:
                         st.info(f"✅ **Single Detour:** Route via **{recs.iloc[0]['junction'].replace('_', ' ')}**")
                     else:
                         st.warning("No alternative routes found within the spatial constraints.")
+
+            suggested_diversion_node_ids = (
+                recs["node_id"].head(2).tolist()
+                if len(recs) > 0 and "node_id" in recs.columns
+                else []
+            )
+            update_saved_event(
+                event_id,
+                {"suggested_diversion_node_ids": suggested_diversion_node_ids}
+            )
 
             st.success("Stationary Event processed successfully.")
             st.session_state["single_point_ready"] = True
