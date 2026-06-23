@@ -8,6 +8,8 @@ st.set_page_config(
     layout="wide"
 )
 
+st.warning("This page is just for experimenting")
+
 # =====================================================
 # EVENT DATA
 # =====================================================
