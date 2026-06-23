@@ -271,16 +271,29 @@ with st.container(border=True):
 
                             deployment_prediction = event.get(
                                 "deployment_prediction",
-                                {}
+                                []
                             )
 
-                            if (
-                                deployment_prediction
-                                and deployment_prediction.get("junction")
-                            ):
-                                predicted_officers = deployment_prediction.get(
-                                    "predicted_officers"
+                            if isinstance(deployment_prediction, list):
+
+                                route_junction = (
+                                    junction_name.split(",")[0]
+                                    .replace(" ", "")
                                 )
+
+                                for pred in deployment_prediction:
+
+                                    pred_junction = str(
+                                        pred.get("junction", "")
+                                    ).replace(" ", "")
+
+                                    if pred_junction == route_junction:
+
+                                        predicted_officers = pred.get(
+                                            "predicted_officers"
+                                        )
+
+                                        break
 
                             st.markdown(f"**{junction_name}**")
 
@@ -354,13 +367,37 @@ with st.container(border=True):
                                 "datasets/event_congestion_scores.csv"
                             )
 
-                            feedback_for_learning = [
-                                {
-                                    "junction": prediction["junction"],
-                                    "predicted_officers": prediction["predicted_officers"],
-                                    "actual_officers": expected_officers[0]
-                                }
-                            ]
+                            feedback_for_learning = []
+
+                            for pred in prediction:
+
+                                actual_count = 0
+
+                                pred_junction = str(
+                                    pred["junction"]
+                                ).replace(" ", "")
+
+                                for actual in officials_by_junction:
+
+                                    actual_junction = (
+                                        str(actual["junction"])
+                                        .split(",")[0]
+                                        .replace(" ", "")
+                                    )
+
+                                    if actual_junction == pred_junction:
+
+                                        actual_count = actual[
+                                            "expected_officials"
+                                        ]
+
+                                        break
+
+                                feedback_for_learning.append({
+                                    "junction": pred["junction"],
+                                    "predicted_officers": pred["predicted_officers"],
+                                    "actual_officers": actual_count
+                                })
 
                             (
                                 junction_df,

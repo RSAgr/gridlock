@@ -7,7 +7,7 @@ from modules.routing_engine import RoutingEngine
 from modules.divergence_scorer import calculate_divergence_requirement
 from modules.calculate_officers import calculate_officers
 from modules.refresh_officer_count import refresh_officer_availability
-from modules.events_store import append_event
+from modules.events_store import (append_event,load_events_document,save_event_records)
 from modules.calculate_officers import calculate_officers
 
 st.set_page_config(page_title="Plan Event", page_icon="📅", layout="wide")
@@ -228,6 +228,8 @@ if event_type in route_based_events:
 
         st.subheader("👮 Police Deployment Plan")
 
+        deployment_predictions = []
+
         for junction in st.session_state["diversion_junctions"]:
 
             result = calculate_officers(
@@ -237,6 +239,11 @@ if event_type in route_based_events:
                 hour=st.session_state["hour"],
                 start_time=st.session_state["start_time"]
             )
+            deployment_predictions.append({
+                "junction": result["junction"],
+                "predicted_officers": result["officers_required"],
+                "actual_officers": None
+            })
 
             with st.container(border=True):
 
@@ -255,6 +262,21 @@ if event_type in route_based_events:
                         f"{alloc['officers_allocated']} officers "
                         f"(Workload: {alloc['workload_percent']}%)"
                     )
+        events_doc = load_events_document()
+        events = events_doc["events"]
+
+        for event in reversed(events):
+
+            if (
+                event.get("event_type")
+                == st.session_state["event_type"]
+                and "route" in event
+                and "deployment_prediction" not in event
+            ):
+                event["deployment_prediction"] = deployment_predictions
+                break
+
+        save_event_records(events)
             
 
 else:
@@ -313,6 +335,13 @@ else:
                 junction_hour_df=junction_hour_df,
                 event_df=e_scores
             )
+            deployment_prediction = [
+                {
+                    "junction": prediction["junction"],
+                    "predicted_officers": prediction["officers_required"],
+                    "actual_officers": None
+                }
+            ]
 
             payload = {
                 "id": datetime.now().strftime("%Y%m%d%H%M%S"),
@@ -323,10 +352,7 @@ else:
                 "event_location": all_nodes_dict[event_location],
                 "status": "planned",
                 "divergence": bool(div_assessment['requires_divergence']),
-                "deployment_prediction": {
-                    "junction": prediction["junction"],
-                    "predicted_officers": prediction["officers_required"]
-                }
+                "deployment_prediction": deployment_prediction
             }
 
             save_event(payload)
@@ -359,6 +385,27 @@ else:
     with diversion_col:
         if st.button("🚧 Generate Diversion Plan", type="primary", use_container_width=True):
             refresh_officer_availability(current_time=f"{event_date} {event_time}")
+            day_type = (
+                "Weekend"
+                if pd.to_datetime(event_date).dayofweek >= 5
+                else "Weekday"
+            )
+
+            prediction = calculate_officers(
+                junction_name=raw_junction_name,
+                event_type=event_type,
+                day_type=day_type,
+                hour=event_time.hour,
+                start_time=f"{event_date} {event_time}"
+            )
+
+            deployment_prediction = [
+                {
+                    "junction": prediction["junction"],
+                    "predicted_officers": prediction["officers_required"],
+                    "actual_officers": None
+                }
+            ]
             payload = {
                 "id": datetime.now().strftime("%Y%m%d%H%M%S"),
                 "event_type": event_type,
@@ -368,7 +415,8 @@ else:
                 "event_location": all_nodes_dict[event_location],
                 "status": "planned",
                 "ai_divergence_score": div_assessment['score'],
-                "divergence": bool(div_assessment['requires_divergence'])
+                "divergence": bool(div_assessment['requires_divergence']),
+                "deployment_prediction": deployment_prediction
             }
             save_event(payload)
             
