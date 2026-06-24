@@ -33,6 +33,10 @@ FlowGuard AI addresses these challenges through data-driven decision making.
 
 ---
 
+## Try It Yourself
+
+[Deployed Link](https://rsagr-gridlock-app-hggas9.streamlit.app/)
+
 ## ✨ Features
 
 ### 📅 Event Planner
