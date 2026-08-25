@@ -3,9 +3,16 @@ import pandas as pd
 import geopandas as gpd
 from shapely.geometry import Point
 import ast
+import hashlib
+import json
 from collections import defaultdict
 import warnings
 import os
+
+try:
+    import redis
+except ImportError:
+    redis = None
 
 warnings.filterwarnings('ignore')
 
@@ -22,6 +29,49 @@ class RoutingEngine:
         
         self._prepare_nodes()
         self._build_adjacency()
+        self.redis_client = self._get_redis_client()
+        self.route_cache_ttl = int(os.getenv("ROUTE_CACHE_TTL_SECONDS", "300"))
+
+    def _get_redis_client(self):
+        """Return a Redis client when configured; otherwise keep routing local-only."""
+        redis_url = os.getenv("REDIS_URL")
+        if redis is None or not redis_url:
+            return None
+
+        try:
+            client = redis.Redis.from_url(redis_url, socket_connect_timeout=0.2, socket_timeout=0.2)
+            client.ping()
+            return client
+        except Exception:
+            return None
+
+    def _route_cache_key(self, route_path, hr, is_wknd, active_event_type):
+        start_node = str(route_path[0])
+        end_node = str(route_path[-1])
+        blocked_nodes = sorted(str(node_id) for node_id in route_path[1:-1])
+        blocked_hash = hashlib.sha256(json.dumps(blocked_nodes).encode("utf-8")).hexdigest()[:16]
+        event_key = str(active_event_type or "others").strip().lower()
+        day_key = "weekend" if is_wknd else "weekday"
+        return f"route_diversion:{start_node}:{end_node}:{blocked_hash}:{int(hr)}:{day_key}:{event_key}"
+
+    def _get_cached_route_diversion(self, cache_key):
+        if self.redis_client is None:
+            return None
+
+        try:
+            cached = self.redis_client.get(cache_key)
+            return json.loads(cached) if cached else None
+        except Exception:
+            return None
+
+    def _set_cached_route_diversion(self, cache_key, payload):
+        if self.redis_client is None or payload.get("status") != "success":
+            return
+
+        try:
+            self.redis_client.setex(cache_key, self.route_cache_ttl, json.dumps(payload))
+        except Exception:
+            pass
 
     def _prepare_nodes(self):
         # Clean spacing tokens
@@ -197,6 +247,10 @@ class RoutingEngine:
         start_node = route_path[0]
         end_node = route_path[-1]
         blocked_nodes = set(route_path[1:-1])
+        cache_key = self._route_cache_key(route_path, hr, is_wknd, active_event_type)
+        cached_result = self._get_cached_route_diversion(cache_key)
+        if cached_result:
+            return cached_result
 
         # BFS Setup: Queue holds (current_node, path_history)
         queue = deque([(start_node, [start_node])])
@@ -253,12 +307,14 @@ class RoutingEngine:
             
             # Average Health across the completed BFS graph route
             avg_health = 1 / (1 + (total_penalty / len(alternate_path)))
-            return {
+            result = {
                 "status": "success",
                 "path": path_details,
                 "node_ids": alternate_path,
                 "avg_health": avg_health
             }
+            self._set_cached_route_diversion(cache_key, result)
+            return result
         else:
             fallback = self.get_single_point_diversions(start_node, hr, is_wknd).head(3)
             return {"status": "fallback", "nodes": fallback}

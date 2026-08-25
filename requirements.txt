@@ -6,3 +6,4 @@ geopandas
 shapely
 numpy
 geopy
+redis
