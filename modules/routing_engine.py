@@ -30,7 +30,7 @@ class RoutingEngine:
         self._prepare_nodes()
         self._build_adjacency()
         self.redis_client = self._get_redis_client()
-        self.route_cache_ttl = int(os.getenv("ROUTE_CACHE_TTL_SECONDS", "300"))
+        self.route_cache_ttl = self._get_route_cache_ttl()
 
     def _get_redis_client(self):
         """Return a Redis client when configured; otherwise keep routing local-only."""
@@ -39,11 +39,22 @@ class RoutingEngine:
             return None
 
         try:
-            client = redis.Redis.from_url(redis_url, socket_connect_timeout=0.2, socket_timeout=0.2)
+            client = redis.Redis.from_url(
+                redis_url,
+                socket_connect_timeout=0.2,
+                socket_timeout=0.2,
+                decode_responses=True,
+            )
             client.ping()
             return client
         except Exception:
             return None
+
+    def _get_route_cache_ttl(self):
+        try:
+            return max(1, int(os.getenv("ROUTE_CACHE_TTL_SECONDS", "300")))
+        except ValueError:
+            return 300
 
     def _route_cache_key(self, route_path, hr, is_wknd, active_event_type):
         start_node = str(route_path[0])
@@ -302,7 +313,7 @@ class RoutingEngine:
                 path_details.append({
                     'junction': self.node_lookup[nid]['junction'].replace('_', ' '),
                     'corridor': self.node_lookup[nid]['corridor'].replace('_', ' '),
-                    'health': 1 / (1 + node_penalty)
+                    'health': float(1 / (1 + node_penalty))
                 })
             
             # Average Health across the completed BFS graph route
@@ -311,7 +322,7 @@ class RoutingEngine:
                 "status": "success",
                 "path": path_details,
                 "node_ids": alternate_path,
-                "avg_health": avg_health
+                "avg_health": float(avg_health)
             }
             self._set_cached_route_diversion(cache_key, result)
             return result
